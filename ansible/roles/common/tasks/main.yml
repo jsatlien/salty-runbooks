@@ -1,0 +1,49 @@
+---
+
+- name: Get latest package data
+  apt: update_cache=yes
+
+- name: Run any safe upgrades
+  apt: upgrade=safe
+
+- name: Install the basics
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - apt-transport-https
+    - build-essential
+    - htop
+    - iftop
+    - iotop
+    - lsof
+    - mosh
+    - ntp
+    - rsync
+    - screen
+    - strace
+    - sudo
+    - unattended-upgrades
+    - vim
+    - wamerican
+  notify:
+    - remove unnecessary packages
+
+- name: Add default user
+  user: name={{ default_user }}
+    state=present
+    groups=sudo
+    shell={{ default_shell }}
+    password={{ default_pass }}
+
+- name: Add pubkey to default user authorized_keys
+  authorized_key: user={{ default_user }}
+    key="{{ lookup('file', '/home/redline/.ssh/id_rsa.pub') }}"
+
+- name: Tighten SSH security
+  template: src=sshd.j2 dest=/etc/ssh/sshd_config
+  notify:
+    - restart ssh
+
+- name: Add the ntp config
+  copy: src=ntp.conf dest=/etc/ntp.conf
+  notify:
+    - restart clock

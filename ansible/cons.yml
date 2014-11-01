@@ -1,0 +1,15 @@
+---
+
+- hosts: cons
+  user: deploy
+  sudo: True
+  vars_files:
+    - vars/cons.yml
+  roles:
+    - common
+    #- webserver
+    #- database
+    #- git
+    #- blog
+    #- mailserver
+    #- webmail

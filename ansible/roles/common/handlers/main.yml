@@ -1,0 +1,10 @@
+---
+
+- name: remove unnecessary packages
+  shell: apt-get autoremove
+
+- name: restart ssh
+  service: name=ssh state=restarted enabled=yes
+
+- name: restart clock
+  service: name=ntp state=restarted enabled=yes

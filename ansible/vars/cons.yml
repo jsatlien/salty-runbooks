@@ -1,0 +1,12 @@
+---
+
+# basics
+domain: kingcons.io
+default_user: cons
+default_shell: /bin/bash
+default_pass: $6$Ki.vvZ1kcj2x8.B$jysx9Gn4o5uFsPMXi47J5XbheaBYaiKUFRUQfJrnG0Uo8jydApxzS758gA51H.w/hHu3WUFcdh1w0SZxKEFD70
+
+ssh_allowed_users:
+  - "{{ default_user }}"
+  - git
+  - deploy
