@@ -1,0 +1,8 @@
+redlinernotes:
+  host: 74.207.227.162
+  user: redline
+  priv: /home/redline/.ssh/vps-boxen
+cons:
+  host: 173.230.136.48
+  user: root
+  priv: /home/redline/.ssh/id_rsa

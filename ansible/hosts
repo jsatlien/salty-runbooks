@@ -1,0 +1,5 @@
+[cons]
+kingcons.io ansible_ssh_user=root
+
+[redlinernotes]
+redlinernotes.com
