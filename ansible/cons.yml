@@ -8,8 +8,8 @@
   roles:
     - common
     - webserver
+    - git
+    #- { role: blog, tags: ['blog'] }
     #- database
-    #- git
-    #- blog
     #- mailserver
     #- webmail
