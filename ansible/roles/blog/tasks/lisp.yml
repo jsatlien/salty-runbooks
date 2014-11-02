@@ -1,0 +1,34 @@
+---
+
+# Install lisp packages as needed.
+- name: Install lisp packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - sbcl
+    - sbcl-doc
+    - sbcl-source
+    - cl-quicklisp
+
+- name: Ensure builds dir
+  file: path=/home/{{ default_user }}/bin/builds owner={{ default_user }}
+    state=directory
+
+- name: Download Clozure CL
+  get_url: url=ftp://ftp.clozure.com/pub/release/1.10/ccl-1.10-linuxx86.tar.gz
+    dest=/home/{{ default_user }}/bin/builds/ccl.tar.gz
+
+- name: Extract Clozure CL
+  unarchive: src=/home/{{ default_user }}/bin/builds/ccl.tar.gz
+    dest=/home/{{ default_user }}/bin/builds copy=no
+    owner={{ default_user }} group={{ default_user }} mode=755
+    creates=/home/{{ default_user }}/bin/builds/ccl
+
+- name: Rebuild Clozure for old glibc (< 2.14)
+  command: make
+  args:
+    chdir: /home/{{ default_user }}/bin/builds/ccl/lisp-kernel/linuxx8664
+    creates: /home/{{ default_user }}/bin/builds/ccl/lisp-kernel/linuxx8664/pad.o
+
+- name: Symlink ccl64
+  file: src=/home/{{ default_user }}/bin/builds/ccl/lx86cl64
+    dest=/usr/bin/ccl state=link mode=755

@@ -10,3 +10,11 @@ ssh_allowed_users:
   - "{{ default_user }}"
   - git
   - deploy
+
+# everybody loves coleslaw
+blog_repo_dir: improvedmeans.git
+blog_deploy_dir: /srv/www/blog.{{ domain }}
+blog_author: Brit Butler
+blog_disqus_shortname: clockworkwebdevelopment
+blog_analytics_code: UA-37659929-1
+blog_title: Improved Means for Achieving Deteriorated Ends

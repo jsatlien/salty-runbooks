@@ -1,0 +1,22 @@
+(:author "{{ blog_author }}"
+ :deploy-dir "{{ blog_deploy_dir }}"
+ :domain "http://blog.{{ domain }}"
+ :feeds ("lisp")
+ :plugins ((versioned)
+           (mathjax)
+           (static-pages)
+           (disqus :shortname "{{ blog_disqus_shortname }}")
+	   (analytics :tracking-code "{{ blog_analytics_code }}"))
+ :routing ((:post "posts/~a")
+           (:tag-index "tag/~a")
+           (:month-index "date/~a")
+           (:numeric-index "~d")
+           (:feed "~a.xml")
+           (:tag-feed "tag/~a.xml"))
+ :sitenav ((:url "http://redlinernotes.com/" :name "Home")
+           (:url "http://github.com/redline6561" :name "Code")
+           (:url "http://soundcloud.com/redlinernotes" :name "Music")
+           (:url "http://redlinernotes.com/docs/talks/" :name "Talks")
+           (:url "http://twitter.com/redline6561" :name "Twitter"))
+ :title "{{ blog_title }}"
+ :theme "hyde")

@@ -1,0 +1,11 @@
+server {
+  server_name  blog.{{ domain }};
+  access_log   /var/log/nginx/blog.{{ domain }}/access.log;
+  error_log    /var/log/nginx/blog.{{ domain }}/error.log error;
+  root         {{ blog_deploy_dir }}/.curr;
+  index        index.html;
+
+   location / {
+    autoindex on;
+  }
+}
