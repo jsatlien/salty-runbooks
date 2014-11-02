@@ -1,0 +1,15 @@
+---
+
+- name: Install nginx
+  apt: pkg=nginx state=installed
+
+- name: Make nginx logdir
+  file: dest=/var/log/nginx/{{ domain }} mode=755 state=directory
+
+- name: Make web dir
+  file: dest=/srv/www/{{ domain }} mode=755 state=directory
+
+- name: Add basic nginx config
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
+  notify:
+    - restart nginx

@@ -1,0 +1,11 @@
+server {
+  server_name  {{ domain }};
+  access_log   /var/log/nginx/{{ domain }}/access.log;
+  error_log    /var/log/nginx/{{ domain }}.error.log error;
+  root         /srv/www/{{ domain }};
+  index        index.html;
+
+   location / {
+    autoindex on;
+  }
+}

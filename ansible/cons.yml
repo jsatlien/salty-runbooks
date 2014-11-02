@@ -7,7 +7,7 @@
     - vars/cons.yml
   roles:
     - common
-    #- webserver
+    - webserver
     #- database
     #- git
     #- blog
