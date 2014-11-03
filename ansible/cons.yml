@@ -8,7 +8,7 @@
   roles:
     - common
     - webserver
-    - { role: blog, tags: ['blog'] }
+    - blog
     #- database
     #- mailserver
     #- webmail
