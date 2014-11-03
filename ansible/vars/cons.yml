@@ -9,6 +9,7 @@ default_pass: $6$Ki.vvZ1kcj2x8.B$jysx9Gn4o5uFsPMXi47J5XbheaBYaiKUFRUQfJrnG0Uo8jy
 ssh_allowed_users:
   - "{{ default_user }}"
   - deploy
+  - git
 
 # everybody loves coleslaw
 blog_repo_dir: improvedmeans.git
