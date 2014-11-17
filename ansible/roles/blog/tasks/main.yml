@@ -50,4 +50,3 @@
     - restart nginx
 
 #TODO: Set sitenav from config.
-#TODO: Improve readable theme (check frog?) and set it in coleslaw.j2

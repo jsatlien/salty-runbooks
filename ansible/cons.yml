@@ -9,6 +9,7 @@
     - common
     - webserver
     - blog
+    #- { role: mailserver, tags: ['mail'] }
+    #- { role: znc, tags: ['irc'] }
     #- database
-    #- mailserver
     #- webmail
