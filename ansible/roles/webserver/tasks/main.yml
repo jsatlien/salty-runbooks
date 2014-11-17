@@ -1,7 +1,7 @@
 ---
 
 - name: Install nginx
-  apt: pkg=nginx state=installed
+  apt: pkg=nginx state=present
 
 - name: Make nginx logdir
   file: path=/var/log/nginx/{{ domain }} mode=755 state=directory
