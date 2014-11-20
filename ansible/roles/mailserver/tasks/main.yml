@@ -1,0 +1,4 @@
+---
+
+- include: postgres.yml tags=postgres
+- include: postfix.yml tags=postfix

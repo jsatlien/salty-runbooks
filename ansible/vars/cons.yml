@@ -4,7 +4,7 @@
 domain: kingcons.io
 default_user: cons
 default_shell: /bin/bash
-default_pass: $6$Ki.vvZ1kcj2x8.B$jysx9Gn4o5uFsPMXi47J5XbheaBYaiKUFRUQfJrnG0Uo8jydApxzS758gA51H.w/hHu3WUFcdh1w0SZxKEFD70
+default_pass: todo
 
 ssh_allowed_users:
   - "{{ default_user }}"
@@ -18,3 +18,11 @@ blog_author: Brit Butler
 blog_disqus_shortname: clockworkwebdevelopment
 blog_analytics_code: UA-37659929-1
 blog_title: Improved Means for Achieving Deteriorated Ends
+
+# miscellaneous database settings
+db_admin_pass: todo
+
+# gotta have that email
+db_mail_user: todo
+db_mail_pass: todo
+db_mail_database: postbox
