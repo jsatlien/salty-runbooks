@@ -8,3 +8,6 @@
 
 - name: restart clock
   service: name=ntp state=restarted enabled=yes
+
+- name: restart fail2ban
+  service: name=fail2ban state=restarted enabled=yes

@@ -38,14 +38,9 @@
   authorized_key: user={{ default_user }}
     key="{{ lookup('file', '/home/redline/.ssh/id_rsa.pub') }}"
 
-- name: Tighten SSH security
-  template: src=sshd.j2 dest=/etc/ssh/sshd_config
-  notify:
-    - restart ssh
-
 - name: Add the ntp config
   copy: src=ntp.conf dest=/etc/ntp.conf
   notify:
     - restart clock
 
-- include: firewall.yml tags=firewall
+- include: security.yml tags=security

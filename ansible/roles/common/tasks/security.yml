@@ -1,23 +1,28 @@
 ---
 
-- name: Install ufw
-  apt: pkg=ufw state=present
+- name: Tighten SSH security
+  template: src=sshd.j2 dest=/etc/ssh/sshd_config
+  notify:
+    - restart ssh
+
+- name: Install security-related packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - fail2ban
+    - ufw
+
+- name: Add basic fail2ban configuration
+  template: src=fail2ban.j2 dest=/etc/fail2ban/jail.local
+  notify: restart fail2ban
 
 - name: Deny everything and enable UFW
   ufw: state=enabled policy=deny
 
-- name: Set firewall rule for DNS
-  ufw: rule=allow port=domain
-
 - name: Set firewall rule for mosh
   ufw: rule=allow port=60000:61000 proto=udp
 
-- name: Set firewall rules for web traffic and SSH
-  ufw: rule=allow port={{ item }} proto=tcp
-  with_items:
-    - http
-    - https
-    - ssh
+- name: Set firewall rules for SSH
+  ufw: rule=allow port=ssh proto=tcp
 
 - name: Check config of ufw
   command: cat /etc/ufw/ufw.conf

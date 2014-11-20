@@ -2,6 +2,7 @@
 
 # basics
 domain: kingcons.io
+admin_email: todo
 default_user: cons
 default_shell: /bin/bash
 default_pass: todo

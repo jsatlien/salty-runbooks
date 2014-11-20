@@ -9,6 +9,12 @@
 - name: Make web dir
   file: path=/srv/www/{{ domain }} mode=755 state=directory
 
+- name: Add firewall rules for web traffic
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - http
+    - https
+
 - name: Add basic nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
   notify:
