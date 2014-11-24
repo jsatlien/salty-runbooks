@@ -12,13 +12,13 @@
   sudo: yes
   sudo_user: postgres
 
-## NOTE: By default, psql does authentication based on the linux user
-## running it for unix sockets and md5'd passwords for tcp/ip connections.
-## If some app gets auth failures, we'll probably need to uncomment this.
-## Or figure out how to tell the app to use tcp/ip to talk to postgres.
-#
-# - name: Enable password-based login
-#   replace: dest=/etc/postgresql/9.1/main/pg_hba.conf
-#     regexp='^local\s+all\s+all\s+peer$' replace='local  all  all  md5'
-#   notify:
-#     - restart postgres
+## NOTE: By default, debian postgres/psql does authentication based on
+## the linux user running it for unix sockets and md5'd passwords for
+## tcp/ip connections. Rather than create a unix user for every stupid
+## database-using app, we'll enable password-based login locally.
+
+- name: Enable password-based login
+  replace: dest=/etc/postgresql/9.1/main/pg_hba.conf
+    regexp='^local\s+all\s+all\s+peer$' replace='local  all  all  md5'
+  notify:
+    - restart postgres

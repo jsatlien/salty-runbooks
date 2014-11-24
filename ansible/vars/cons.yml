@@ -1,8 +1,10 @@
 ---
 
-# basics
+### basics
 domain: kingcons.io
-admin_email: todo
+email_user: brit
+admin_email: "{{ email_user }}@{{ domain }}"
+
 default_user: cons
 default_shell: /bin/bash
 default_pass: todo
@@ -12,7 +14,7 @@ ssh_allowed_users:
   - deploy
   - git
 
-# everybody loves coleslaw
+### everybody loves coleslaw
 blog_repo_dir: improvedmeans.git
 blog_deploy_dir: /srv/www/blog.{{ domain }}
 blog_author: Brit Butler
@@ -20,10 +22,34 @@ blog_disqus_shortname: clockworkwebdevelopment
 blog_analytics_code: UA-37659929-1
 blog_title: Improved Means for Achieving Deteriorated Ends
 
-# miscellaneous database settings
+### miscellaneous database settings
 db_admin_pass: todo
 
-# gotta have that email
-db_mail_user: todo
+### gotta have that email
+mail_server_hostname: "{{ domain }}"
+db_mail_user: postmaster
 db_mail_pass: todo
 db_mail_database: postbox
+
+### virtual mail users/aliases/domains
+vmail_users: todo
+## Format for entries is:
+# - account: "{{ admin_email }}"
+#   domain: "{{ domain }}"
+#   password_hash: foo
+#   domain_pk_id: 1
+
+vmail_aliases:
+  - source: "root@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
+  - source: "admin@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
+  - source: "webmaster@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
+
+vmail_domains:
+  - name: "{{ domain }}"
+    pk_id: 1
