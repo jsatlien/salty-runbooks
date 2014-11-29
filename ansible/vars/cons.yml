@@ -50,6 +50,9 @@ vmail_aliases:
   - source: "admin@{{ domain }}"
     destination: "{{ admin_email }}"
     domain_pk_id: 1
+  - source: "postmaster@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
   - source: "webmaster@{{ domain }}"
     destination: "{{ admin_email }}"
     domain_pk_id: 1

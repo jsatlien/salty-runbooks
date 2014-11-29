@@ -29,7 +29,7 @@
 
 - name: Use ccl as lisp implementation in post-receive hook
   lineinfile: dest=/home/git/{{ blog_repo_dir }}/hooks/post-receive
-    regexp=^LISP= line=LISP=ccl
+    regexp="^LISP=" line="LISP=ccl"
 
 - name: Make the post-receive hook executable
   file: path=/home/git/{{ blog_repo_dir }}/hooks/post-receive
