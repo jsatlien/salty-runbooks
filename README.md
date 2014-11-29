@@ -22,7 +22,7 @@ Run with `ansible-playbook -vv -i ./hosts cons.yml` optionally adding
 Toplevel tags are roles while nested tags are includes.
 
 * common
-  * firewall
+  * security
 * web
 * blog
   * git
@@ -31,4 +31,6 @@ Toplevel tags are roles while nested tags are includes.
 * mail
   * postgres
   * postfix
+  * dovecot
+  * opendkim
 * irc
