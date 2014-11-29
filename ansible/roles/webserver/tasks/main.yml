@@ -9,12 +9,22 @@
 - name: Make web dir
   file: path=/srv/www/{{ domain }} mode=755 state=directory
 
+- name: Make ssl dir
+  file: path=/etc/nginx/ssl mode=755 state=directory
+
+- name: Generate Diffie Helman Param file
+  shell: openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+    creates=/etc/nginx/ssl/dhparam.pem
+
 - name: Add firewall rules for web traffic
   ufw: rule=allow port={{ item }} proto=tcp
   with_items:
     - http
     - https
 
+# TODO:
+# At some point we should use the nginx-ssl config here.
+# Maybe once let's encrypt is up or I'm not self-signing.
 - name: Add basic nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
   notify:

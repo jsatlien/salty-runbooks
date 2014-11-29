@@ -5,14 +5,25 @@
   notify:
     - restart ssh
 
+- name: Generate self-signed SSL certificate
+  command: openssl req -new -nodes -x509 -subj
+    "/C=US/ST=Georgia/L=Atlanta/O=KingCons LLC/CN=*.{{ domain }}"
+    -days 3650 -keyout "{{ ssl_key_path }}" -out "{{ ssl_cert_path }}"
+    -extensions v3_ca creates="{{ ssl_cert_path }}"
+
 - name: Install security-related packages
   apt: pkg={{ item }} state=present
   with_items:
     - fail2ban
     - ufw
 
+- name: Check for fail2ban config
+  stat: path=/etc/fail2ban/jail.local
+  register: f2b_conf
+
 - name: Add basic fail2ban configuration
   template: src=fail2ban.j2 dest=/etc/fail2ban/jail.local
+  when: not f2b_conf.stat.exists
   notify: restart fail2ban
 
 - name: Deny everything and enable UFW

@@ -9,3 +9,8 @@ server {
     autoindex on;
   }
 }
+
+server {
+  server_name www.{{ domain }};
+  return 301 http://{{ domain }}$request_uri;
+}

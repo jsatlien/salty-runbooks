@@ -23,12 +23,13 @@
 
 - name: Ensure post-receive hook is in bare repo
   shell: rsync -ci /home/git/quicklisp/local-projects/coleslaw/examples/example.post-receive /home/git/improvedmeans.git/hooks/post-receive
+    creates=/home/git/improvedmeans.git/hooks/post-receive
   register: rsync_result
   changed_when: "rsync_result.stdout != ''"
 
 - name: Use ccl as lisp implementation in post-receive hook
   lineinfile: dest=/home/git/{{ blog_repo_dir }}/hooks/post-receive
-    regexp=^LISP=sbcl line=LISP=ccl
+    regexp=^LISP= line=LISP=ccl
 
 - name: Make the post-receive hook executable
   file: path=/home/git/{{ blog_repo_dir }}/hooks/post-receive

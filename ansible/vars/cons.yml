@@ -14,6 +14,10 @@ ssh_allowed_users:
   - deploy
   - git
 
+### and SSL is important, especially these days
+ssl_key_path: /etc/ssl/private/wildcard_private.key
+ssl_cert_path: /etc/ssl/certs/wildcard_public.crt
+
 ### everybody loves coleslaw
 blog_repo_dir: improvedmeans.git
 blog_deploy_dir: /srv/www/blog.{{ domain }}
