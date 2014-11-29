@@ -52,8 +52,8 @@
     regexp="{{ item.regexp }}" replace="{{ item.line }}"
   with_items:
     - { regexp: "^#ssl =.*$", line: "ssl = required" }
-    - { regexp: "^ssl_cert =.*$ ", line: "<{{ ssl_cert_path }}" }
-    - { regexp: "^ssl_key = .*$", line: "<{{ ssl_key_path }}" }
+    - { regexp: "^ssl_cert =.*$ ", line: "ssl_cert = <{{ ssl_cert_path }}" }
+    - { regexp: "^ssl_key = .*$", line: "ssl_key = <{{ ssl_key_path }}" }
     - { regexp: "^#ssl_protocols =.*$", line: "ssl_protocols = !SSLv2 !SSLv3" }
 
 - name: Add SQL config for Dovecot
