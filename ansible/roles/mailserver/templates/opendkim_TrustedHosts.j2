@@ -1,0 +1,5 @@
+127.0.0.1
+{{ ansible_default_ipv4.address }}
+{% for domain in vmail_domains %}
+  {{ domain.name }}
+{% endfor %}

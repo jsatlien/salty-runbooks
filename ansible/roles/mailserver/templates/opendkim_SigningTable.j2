@@ -1,0 +1,3 @@
+{% for domain in vmail_domains %}
+  *@{{ domain.name }} default._domainkey.{{ domain.name }}
+{% endfor %}

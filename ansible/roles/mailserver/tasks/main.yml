@@ -3,4 +3,5 @@
 - include: postgres.yml tags=postgres
 - include: postfix.yml tags=postfix
 - include: dovecot.yml tags=dovecot
+- include: opendkim.yml tags=opendkim
 
