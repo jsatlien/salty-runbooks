@@ -20,5 +20,4 @@
 - name: Enable password-based login
   replace: dest=/etc/postgresql/9.1/main/pg_hba.conf
     regexp='^local\s+all\s+all\s+peer$' replace='local  all  all  md5'
-  notify:
-    - restart postgres
+  notify: restart postgres

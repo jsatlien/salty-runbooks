@@ -27,5 +27,4 @@
 # Maybe once let's encrypt is up or I'm not self-signing.
 - name: Add basic nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
-  notify:
-    - restart nginx
+  notify: restart nginx
