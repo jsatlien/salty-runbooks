@@ -9,3 +9,8 @@ server {
     autoindex on;
   }
 }
+
+server {
+  server_name blog.redlinernotes.com;
+  return 301  http://blog.{{ domain}}$request_uri;
+}
