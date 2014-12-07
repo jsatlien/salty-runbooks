@@ -12,5 +12,6 @@
     - { role: blog, tags: ['blog'] }
     - { role: mailserver, tags: ['mail'] }
     - { role: bookmarks, tags: ['bookmarks'] }
-    #- { role: znc, tags: ['irc'] }
+    - { role: bouncer, tags: ['irc'] }
+    #- { role: radio, tags: ['radio'] }
     #- { role: webmail, tags: ['webmail'] }

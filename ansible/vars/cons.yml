@@ -60,3 +60,13 @@ vmail_aliases:
 vmail_domains:
   - name: "{{ domain }}"
     pk_id: 1
+
+### you live on irc, right? gotta have a bouncer...
+znc_version: 1.4
+znc_user: redline
+irc_nick: KingCons
+irc_legacy_nick: redline6561
+irc_real_name: Brit Butler
+irc_timezone: America/New_York
+irc_password_hash: todo
+irc_password_salt: todo

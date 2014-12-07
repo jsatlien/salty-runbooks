@@ -14,7 +14,8 @@ You'll need to describe your servers in a [hosts file][inventory].
 
 The playbook expects a `deploy` user present with pubkey login and
 passwordless sudo privs. You'll need to edit vars/cons.yml to
-customize things appropriately for your needs.
+customize things appropriately for your needs or even keep sensitive
+data in an uncommitted/gitignored vars/private.yml file.
 
 Run with `ansible-playbook -vv -i ./hosts cons.yml` optionally adding
 `--tags TAG` for the following tags:
@@ -33,4 +34,6 @@ Toplevel tags are roles while nested tags are includes.
   * postfix
   * dovecot
   * opendkim
+  * dspam
+* bookmarks
 * irc

@@ -61,7 +61,7 @@
   notify: restart dovecot
 
 - name: Add LDA config for Dovecot
-  template: src=dovecot_15-lda.conf dest=/etc/dovecot/conf.d/15-lda.conf
+  template: src=dovecot_15-lda.conf.j2 dest=/etc/dovecot/conf.d/15-lda.conf
   notify: restart dovecot
 
 - name: Ensure correct permissions on Dovecot config directory
