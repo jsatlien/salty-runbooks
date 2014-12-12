@@ -1,7 +1,7 @@
 ---
 
 - name: Install necessary system packages
-  apt: pkg=php5-fpm state=installed
+  apt: pkg=php5-fpm state=present
 
 - name: Get latest shaarli version
   git: repo=git://github.com/sebsauvage/Shaarli.git
