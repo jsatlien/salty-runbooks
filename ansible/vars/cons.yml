@@ -8,6 +8,7 @@ admin_email: "{{ email_user }}@{{ domain }}"
 default_user: cons
 default_shell: /bin/bash
 default_pass: todo
+default_build_dir: /home/{{ default_user }}/bin/builds
 
 ssh_allowed_users:
   - "{{ default_user }}"
