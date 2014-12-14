@@ -7,6 +7,7 @@
     - cpp
     - git
     - g++
+    - nasm
     - automake1.9
     - autoconf
     - libtool
@@ -14,11 +15,16 @@
     - bison
     - python-software-properties
     - cmake
-    - libchromaprint-dev
+
+- name: Install libgroove deps
+  apt: pkg={{ item }} state=present default_release=wheezy-backports
+  with_items:
     - libspeexdsp-dev
+    - libmp3lame-dev
+    - libvorbis-dev
     - libsdl2-dev
+    - libavutil-dev
     - libavcodec-dev
-    - libavdevice-dev
     - libavfilter-dev
     - libavformat-dev
     - libswscale-dev
@@ -36,7 +42,24 @@
   shell: cmake . && make && make install
   args:
     chdir: "{{ default_build_dir }}/libebur128"
-    creates: "{{ default_build_dir }}/libebur128/libebur128.so"
+    creates: /usr/local/lib/x86_64-linux-gnu/libebur128.so
+
+# - name: Download libav
+#   get_url: url=https://libav.org/releases/libav-{{ libav_version }}.tar.gz
+#     dest={{ default_build_dir }}/libav.tar.gz
+
+# - name: Extract libav
+#   unarchive: src={{ default_build_dir }}/libav.tar.gz
+#     dest={{ default_build_dir }} copy=no
+#     owner={{ default_user }} group={{ default_user }} mode=755
+#     creates={{ default_build_dir }}/libav-{{ libav_version }}
+
+# - name: Install libav
+#   shell: ./configure --enable-shared --enable-gpl --enable-libmp3lame
+#     --enable-libvorbis --enable-debug && make && make install
+#   args:
+#     chdir: "{{ default_build_dir }}/libav-{{ libav_version }}"
+#     creates: /usr/local/include/libavutil
 
 - name: Checkout libgroove
   git: repo=git://github.com/andrewrk/libgroove.git
@@ -44,7 +67,7 @@
     accept_hostkey=yes
 
 - name: Install libgroove
-  shell: mkdir build && cd build && cmake ../ && make && sudo make install
+  shell: cmake . && make && make install
   args:
     chdir: "{{ default_build_dir }}/libgroove"
     #creates:
