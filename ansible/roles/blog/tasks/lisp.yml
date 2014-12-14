@@ -26,8 +26,8 @@
 - name: Rebuild Clozure for old glibc (< 2.14)
   command: make
   args:
-    chdir: {{ default_build_dir }}/ccl/lisp-kernel/linuxx8664
-    creates: {{ default_build_dir }}/ccl/lisp-kernel/linuxx8664/pad.o
+    chdir: "{{ default_build_dir }}/ccl/lisp-kernel/linuxx8664"
+    creates: "{{ default_build_dir }}/ccl/lisp-kernel/linuxx8664/pad.o"
 
 - name: Symlink ccl64
   file: src={{ default_build_dir }}/ccl/lx86cl64

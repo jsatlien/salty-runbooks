@@ -1,0 +1,11 @@
+---
+
+- include: backports.yml tags=backports
+- include: libgroove.yml tags=libgroove
+- include: nodejs.yml tags=nodejs
+
+# Create Groovebasin user
+# Checkout groovebasin
+# Run npm install in groovebasin dir
+# Configure it at dj.kingcons.io
+# Add nodeservice?

@@ -1,0 +1,50 @@
+---
+
+- name: Install libgroove build deps
+  apt: pkg={{ item }} state=present
+  with_items:
+    - gcc
+    - cpp
+    - git
+    - g++
+    - automake1.9
+    - autoconf
+    - libtool
+    - flex
+    - bison
+    - python-software-properties
+    - cmake
+    - libchromaprint-dev
+    - libspeexdsp-dev
+    - libsdl2-dev
+    - libavcodec-dev
+    - libavdevice-dev
+    - libavfilter-dev
+    - libavformat-dev
+    - libswscale-dev
+
+- name: Ensure builds dir
+  file: path={{ default_build_dir }} owner={{ default_user }}
+    state=directory
+
+- name: Checkout libebur128
+  git: repo=git://github.com/jiixyj/libebur128.git
+    dest={{ default_build_dir }}/libebur128
+    accept_hostkey=yes
+
+- name: Install libebur128
+  shell: cmake . && make && make install
+  args:
+    chdir: "{{ default_build_dir }}/libebur128"
+    creates: "{{ default_build_dir }}/libebur128/libebur128.so"
+
+- name: Checkout libgroove
+  git: repo=git://github.com/andrewrk/libgroove.git
+    dest={{ default_build_dir }}/libgroove
+    accept_hostkey=yes
+
+- name: Install libgroove
+  shell: mkdir build && cd build && cmake ../ && make && sudo make install
+  args:
+    chdir: "{{ default_build_dir }}/libgroove"
+    #creates:

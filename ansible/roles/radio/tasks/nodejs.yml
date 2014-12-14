@@ -1,0 +1,37 @@
+---
+
+# NOTE: Currently unused but I went through the trouble to write it...
+# so what the hell, we'll version it.
+
+- name: Install node.js build deps
+  apt: pkg={{ item }} state=present
+  with_items:
+    - gcc
+    - cpp
+    - g++
+    - automake1.9
+    - autoconf
+    - libtool
+    - flex
+    - bison
+    - python-software-properties
+
+- name: Ensure builds dir
+  file: path={{ default_build_dir }} owner={{ default_user }}
+    state=directory
+
+- name: Download node.js
+  get_url: url=http://nodejs.org/dist/{{ nodejs_version }}/{{ nodejs_version }}.tar.gz
+    dest={{ default_build_dir }}/nodejs.tar.gz
+
+- name: Extract node.js
+  unarchive: src={{ default_build_dir }}/nodejs.tar.gz
+    dest={{ default_build_dir }} copy=no
+    owner={{ default_user }} group={{ default_user }} mode=755
+    creates={{ default_build_dir }/node-{{ nodejs_version }}
+
+- name: Install node.js
+  shell: ./configure && make && sudo make install
+  args:
+    chdir: {{ default_build_dir }}/node-{{ nodejs_version }}
+    creates: /usr/local/bin/node

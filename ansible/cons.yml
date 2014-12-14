@@ -2,7 +2,7 @@
 
 - hosts: cons
   user: deploy
-  sudo: True
+  sudo: yes
   vars_files:
     - vars/cons.yml
     #- vars/private.yml

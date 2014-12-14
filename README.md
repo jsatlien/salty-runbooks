@@ -12,6 +12,9 @@ You'll need to describe your servers in a [hosts file][inventory].
 
 [inventory]: http://docs.ansible.com/intro_inventory.html
 
+The primary playbook `cons.yml` was designed with Debian Wheezy
+servers in mind and will require tweaking to run elsewhere.
+
 The playbook expects a `deploy` user present with pubkey login and
 passwordless sudo privs. You'll need to edit vars/cons.yml to
 customize things appropriately for your needs or even keep sensitive
@@ -37,3 +40,6 @@ Toplevel tags are roles while nested tags are includes.
   * dspam
 * bookmarks
 * irc
+* radio
+  * backports
+  * libgroove
