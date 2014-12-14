@@ -44,15 +44,15 @@
     accept_hostkey=yes
 
 - name: Install libebur128
-  shell: cmake . && make && make install
+  shell: cmake . && make && make install && mv /usr/local/lib/x86_64-linux-gnu/* /usr/local/lib/
   args:
     chdir: "{{ default_build_dir }}/libebur128"
-    creates: /usr/local/lib/x86_64-linux-gnu/libebur128.so
+    creates: /usr/local/lib/libebur128.so
 
-- name: Update ldconfig for libebur
+- name: Run ldconfig to update library locations
   shell: ldconfig
   args:
-    chdir: /usr/local/lib/x86_64-linux-gnu
+    chdir: /usr/local/lib
 
 - name: Download libav
   get_url: url=https://libav.org/releases/libav-{{ libav_version }}.tar.gz

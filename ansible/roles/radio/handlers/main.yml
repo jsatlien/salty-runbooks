@@ -1,0 +1,4 @@
+---
+
+- name: restart groovebasin
+  service: name=groovebasin state=restarted enabled=yes

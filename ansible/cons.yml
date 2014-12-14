@@ -13,5 +13,5 @@
     - { role: mailserver, tags: ['mail'] }
     - { role: bookmarks, tags: ['bookmarks'] }
     - { role: bouncer, tags: ['irc'] }
-    #- { role: radio, tags: ['radio'] }
+    - { role: radio, tags: ['radio'] }
     #- { role: webmail, tags: ['webmail'] }
