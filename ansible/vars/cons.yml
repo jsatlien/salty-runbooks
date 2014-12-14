@@ -73,4 +73,5 @@ irc_password_hash: todo
 irc_password_salt: todo
 
 # you know what's awesome? self-hosted cloud radio
+libav_version: 10.5
 nodejs_version: v0.10.33

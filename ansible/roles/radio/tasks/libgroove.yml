@@ -15,6 +15,7 @@
     - bison
     - python-software-properties
     - cmake
+    - libchromaprint-dev
 
 - name: Install libgroove deps
   apt: pkg={{ item }} state=present default_release=wheezy-backports
@@ -23,11 +24,15 @@
     - libmp3lame-dev
     - libvorbis-dev
     - libsdl2-dev
-    - libavutil-dev
-    - libavcodec-dev
-    - libavfilter-dev
-    - libavformat-dev
-    - libswscale-dev
+    ## KLUDGE: I can't even use these packages from wheezy-backports since
+    ## they don't wind up in /usr/local where make looks for the .so files.
+    ## I get 'No rule for 'local/lib/libavcodec.so' needed by libgroove ...
+
+    # - libavutil-dev
+    # - libavcodec-dev
+    # - libavfilter-dev
+    # - libavformat-dev
+    # - libswscale-dev
 
 - name: Ensure builds dir
   file: path={{ default_build_dir }} owner={{ default_user }}
@@ -44,22 +49,27 @@
     chdir: "{{ default_build_dir }}/libebur128"
     creates: /usr/local/lib/x86_64-linux-gnu/libebur128.so
 
-# - name: Download libav
-#   get_url: url=https://libav.org/releases/libav-{{ libav_version }}.tar.gz
-#     dest={{ default_build_dir }}/libav.tar.gz
+- name: Update ldconfig for libebur
+  shell: ldconfig
+  args:
+    chdir: /usr/local/lib/x86_64-linux-gnu
 
-# - name: Extract libav
-#   unarchive: src={{ default_build_dir }}/libav.tar.gz
-#     dest={{ default_build_dir }} copy=no
-#     owner={{ default_user }} group={{ default_user }} mode=755
-#     creates={{ default_build_dir }}/libav-{{ libav_version }}
+- name: Download libav
+  get_url: url=https://libav.org/releases/libav-{{ libav_version }}.tar.gz
+    dest={{ default_build_dir }}/libav.tar.gz
 
-# - name: Install libav
-#   shell: ./configure --enable-shared --enable-gpl --enable-libmp3lame
-#     --enable-libvorbis --enable-debug && make && make install
-#   args:
-#     chdir: "{{ default_build_dir }}/libav-{{ libav_version }}"
-#     creates: /usr/local/include/libavutil
+- name: Extract libav
+  unarchive: src={{ default_build_dir }}/libav.tar.gz
+    dest={{ default_build_dir }} copy=no
+    owner={{ default_user }} group={{ default_user }} mode=755
+    creates={{ default_build_dir }}/libav-{{ libav_version }}
+
+- name: Install libav
+  shell: ./configure --enable-shared --enable-gpl --enable-libmp3lame
+    --enable-libvorbis --enable-debug && make && make install
+  args:
+    chdir: "{{ default_build_dir }}/libav-{{ libav_version }}"
+    creates: /usr/local/include/libavutil
 
 - name: Checkout libgroove
   git: repo=git://github.com/andrewrk/libgroove.git
@@ -70,4 +80,4 @@
   shell: cmake . && make && make install
   args:
     chdir: "{{ default_build_dir }}/libgroove"
-    #creates:
+    creates: /usr/local/lib/libgroove.so
