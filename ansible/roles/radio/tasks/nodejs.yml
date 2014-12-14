@@ -21,17 +21,17 @@
     state=directory
 
 - name: Download node.js
-  get_url: url=http://nodejs.org/dist/{{ nodejs_version }}/{{ nodejs_version }}.tar.gz
+  get_url: url=http://nodejs.org/dist/{{ nodejs_version }}/node-{{ nodejs_version }}.tar.gz
     dest={{ default_build_dir }}/nodejs.tar.gz
 
 - name: Extract node.js
   unarchive: src={{ default_build_dir }}/nodejs.tar.gz
     dest={{ default_build_dir }} copy=no
     owner={{ default_user }} group={{ default_user }} mode=755
-    creates={{ default_build_dir }/node-{{ nodejs_version }}
+    creates={{ default_build_dir }}/node-{{ nodejs_version }}
 
 - name: Install node.js
   shell: ./configure && make && sudo make install
   args:
-    chdir: {{ default_build_dir }}/node-{{ nodejs_version }}
+    chdir: "{{ default_build_dir }}/node-{{ nodejs_version }}"
     creates: /usr/local/bin/node
