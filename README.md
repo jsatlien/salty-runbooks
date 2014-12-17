@@ -32,6 +32,7 @@ Toplevel tags are roles while nested tags are includes.
   * git
   * lisp
   * quicklisp
+  * coleslaw
 * mail
   * postgres
   * postfix
@@ -43,3 +44,5 @@ Toplevel tags are roles while nested tags are includes.
 * radio
   * backports
   * libgroove
+  * nodejs
+  * groovebasin
