@@ -1,0 +1,34 @@
+---
+
+- name: Create Groovebasin user
+  user: name=radio state=present groups=ssl-cert
+
+- name: Checkout groovebasin
+  git: repo=git://github.com/andrewrk/groovebasin.git
+    dest=/home/radio/groovebasin accept_hostkey=yes
+  sudo: yes
+  sudo_user: radio
+
+- name: Fetch dependencies
+  shell: npm run build
+  args:
+    chdir: /home/radio/groovebasin
+  sudo: yes
+  sudo_user: radio
+
+- name: Add groovebasin config
+  template: src=groovebasin.j2 dest=/home/radio/groovebasin/config.json
+
+- name: Make groovebasin log dir
+  file: path=/var/log/nginx/dj.{{ domain }} mode=755 state=directory
+
+- name: Add nginx config for dj.kingcons.io
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.kingcons.io.conf
+  notify: restart nginx
+
+- name: Add groovebasin service to init.d
+  template: src=service.j2 dest=/etc/init.d/groovebasin mode=755
+
+- name: Set defaults for groovebasin service and start it
+  shell: update-rc.d groovebasin defaults
+  notify: restart groovebasin
