@@ -45,4 +45,5 @@ Toplevel tags are roles while nested tags are includes.
   * backports
   * libgroove
   * nodejs
+  * s3fs
   * groovebasin

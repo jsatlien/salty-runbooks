@@ -1,0 +1,34 @@
+---
+
+- name: Install build deps for s3fs
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - build-essential
+    - libfuse-dev
+    - libcurl4-openssl-dev
+    - libxml2-dev
+    - mime-support
+    - automake
+    - libtool
+
+- name: Download latest s3fs tarball
+  get_url: url=https://github.com/s3fs-fuse/s3fs-fuse/archive/v{{ s3fs_version }}.tar.gz
+    dest={{ default_build_dir }}/s3fs.tar.gz
+
+- name: Extract s3fs
+  unarchive: src={{ default_build_dir }}/s3fs.tar.gz
+    dest={{ default_build_dir }} copy=no
+    creates={{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}
+
+- name: Install s3fs
+  shell: ./autogen.sh && ./configure --prefix=/usr && make && make install
+  args:
+    chdir: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}"
+    creates: /usr/bin/s3fs
+
+- name: Create mountpoint
+  file: path={{ item.path }} state=directory
+  with_items: s3_mountpoints
+
+- name: Add s3fs auth file
+  template: src=s3fs.j2 dest=/etc/passwd-s3fs mode=600
