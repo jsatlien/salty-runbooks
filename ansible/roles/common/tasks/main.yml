@@ -36,7 +36,7 @@
 
 - name: Add pubkey to default user authorized_keys
   authorized_key: user={{ default_user }}
-    key="{{ lookup('file', '/home/redline/.ssh/id_rsa.pub') }}"
+    key="{{ lookup('file', ssh_local_pubkey_path) }}"
 
 - name: Add the ntp config
   copy: src=ntp.conf dest=/etc/ntp.conf
