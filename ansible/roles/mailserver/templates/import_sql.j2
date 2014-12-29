@@ -52,6 +52,6 @@ INSERT INTO "virtual_users"  ("domain_id", "password" , "email")
 {% if vmail_aliases is defined %}
   {% for virtual_alias in vmail_aliases %}
 INSERT INTO "virtual_aliases" ("domain_id", "source", "destination")
-    VALUES ('{{ virtual_alias.domain_pk_id }}', '{{ virtual_alias.source }}', '{{virtual_alias.destination }}');
+    VALUES ('{{ virtual_alias.domain_pk_id }}', '{{ virtual_alias.source }}', '{{ virtual_alias.destination }}');
   {% endfor %}
 {% endif %}
