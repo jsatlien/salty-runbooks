@@ -1,0 +1,7 @@
+---
+
+- name: Install the glorious lisp operating system
+  apt: pkg=emacs24 state=present
+
+- name: Install the glorious spacemacs configuration
+  git

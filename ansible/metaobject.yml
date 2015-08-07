@@ -1,0 +1,10 @@
+---
+
+- hosts: metaobject
+  user: deploy
+  sudo: yes
+  vars_files:
+    - vars/metaobject.yml
+  roles:
+    - { role: thinkpad, tags: ['thinkpad'] }
+#    - { role: lisper, tags: ['lisper'] }

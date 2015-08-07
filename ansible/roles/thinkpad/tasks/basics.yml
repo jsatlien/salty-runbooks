@@ -1,0 +1,64 @@
+---
+
+- name: Add default user to sudoers
+  user: name={{ default_user }}
+        state=present
+        groups=sudo
+        append=yes
+
+- name: Add pubkey to default user authorized_keys
+  authorized_key: user={{ default_user }}
+    key="{{ lookup('file', default_user_pub_key) }}"
+
+- name: Add SSH public key for default user
+  copy: src={{ default_user_pub_key }} dest=/home/{{ default_user }}/.ssh/id_rsa.pub
+    owner={{ default_user }} mode=0644
+
+- name: Add SSH private key for default user
+  copy: src={{ default_user_pri_key }} dest=/home/{{ default_user }}/.ssh/id_rsa
+    owner={{ default_user }} mode=0600
+
+- name: Add SSH config
+  template: src=ssh_config.j2 dest=/home/{{ default_user }}/.ssh/config
+
+- name: Add contrib and non-free apt repos
+  template: src=sources.list.j2 dest=/etc/apt/sources.list
+
+- name: Get latest package data
+  apt: update_cache=yes
+
+- name: Ensure wifi firmware is installed
+  apt: pkg=firmware-iwlwifi state=present
+
+- name: Run any safe upgrade
+  apt: upgrade=safe
+
+- name: He who lacks version control and build tools is not part of the world
+  apt: pkg={{ item }} state=present
+  with_items:
+    - build-essential
+    - git
+    - mercurial
+    - bzr
+    - darcs
+    - subversion
+    - cvs
+
+- name: Add git config
+  template: src=git_config.j2 dest=/home/{{ default_user }}/.gitconfig
+
+- name: Install some handy shell tools
+  apt: pkg={{ item }} state=present
+  with_items:
+    - apt-file
+    - powertop
+    - htop
+    - iotop
+    - iftop
+    - slurm
+    - lsof
+    - dstat
+    - glances
+    - nethogs
+
+# TODO: Maybe tighten SSHd security here? Allowed users, no root, etc.
