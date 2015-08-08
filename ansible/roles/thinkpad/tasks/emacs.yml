@@ -6,11 +6,13 @@
 - name: Install the glorious spacemacs configuration
   git: repo=https://github.com/syl20bnr/spacemacs.git recursive=yes
     dest=/home/{{ default_user }}/projects/spacemacs accept_hostkey=yes
+  become_user: "{{ default_user }}"
 
 - name: Symlink spacemacs into place
   file: src=/home/{{ default_user }}/projects/spacemacs
-    dest=/home/{{ default_user }}/.emacs.d
-    owner={{ default_user }} group={{ default_user }} state=link
+    dest=/home/{{ default_user }}/.emacs.d state=link
+  become_user: "{{ default_user }}"
 
 - name: Add spacemacs config
   copy: src=spacemacs.j2 dest=/home/{{ default_user }}/.spacemacs
+  become_user: "{{ default_user }}"
