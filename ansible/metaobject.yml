@@ -7,4 +7,4 @@
     - vars/metaobject.yml
   roles:
     - { role: thinkpad, tags: ['thinkpad'] }
-#    - { role: lisper, tags: ['lisper'] }
+    - { role: developer, tags: ['developer'] }
