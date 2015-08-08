@@ -9,3 +9,5 @@ default_user_pri_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
 
 apt_mirror: http://debian.gtisc.gatech.edu
 debian_release: jessie
+
+default_build_dir: /home/{{ default_user }}/bin/builds

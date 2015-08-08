@@ -1,0 +1,16 @@
+---
+
+- name: Checkout rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git
+    dest=/home/{{ default_user }}/.rbenv
+
+- name: Add rbenv to PATH
+  lineinfile: name=/home/{{ default_user }}/.bash_profile
+    line="{{ item }}" create=yes state=present
+  with_items:
+    - 'export PATH=\"$HOME/.rbenv/bin:$PATH\"'
+    - 'eval \"$(rbenv init -)\"'
+
+- name: Checkout ruby-build plugin
+  git: repo=https://github.com/sstephenson/ruby-build.git
+    dest=/home/{{ default_user }}/.rbenv/plugins/ruby-build
