@@ -1,0 +1,11 @@
+---
+
+- name: Add SSH public key for default user
+  copy: src={{ default_user_pub_key }} dest=/home/{{ default_user }}/.ssh/id_rsa.pub
+
+- name: Add SSH private key for default user
+  copy: src={{ default_user_pri_key }} dest=/home/{{ default_user }}/.ssh/id_rsa
+    mode=0600
+
+- name: Add SSH config
+  template: src=ssh_config.j2 dest=/home/{{ default_user }}/.ssh/config

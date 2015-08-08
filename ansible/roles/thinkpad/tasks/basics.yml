@@ -10,17 +10,6 @@
   authorized_key: user={{ default_user }}
     key="{{ lookup('file', default_user_pub_key) }}"
 
-- name: Add SSH public key for default user
-  copy: src={{ default_user_pub_key }} dest=/home/{{ default_user }}/.ssh/id_rsa.pub
-    owner={{ default_user }} mode=0644
-
-- name: Add SSH private key for default user
-  copy: src={{ default_user_pri_key }} dest=/home/{{ default_user }}/.ssh/id_rsa
-    owner={{ default_user }} mode=0600
-
-- name: Add SSH config
-  template: src=ssh_config.j2 dest=/home/{{ default_user }}/.ssh/config
-
 - name: Add contrib and non-free apt repos
   template: src=sources.list.j2 dest=/etc/apt/sources.list
 
@@ -46,6 +35,7 @@
 
 - name: Add git config
   template: src=git_config.j2 dest=/home/{{ default_user }}/.gitconfig
+    owner={{ default_user }} group={{ default_user }}
 
 - name: Install some handy shell tools
   apt: pkg={{ item }} state=present
@@ -60,5 +50,6 @@
     - dstat
     - glances
     - nethogs
+    - silversearcher-ag
 
 # TODO: Maybe tighten SSHd security here? Allowed users, no root, etc.

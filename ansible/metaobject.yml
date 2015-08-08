@@ -1,7 +1,7 @@
 ---
 
 - hosts: metaobject
-  user: deploy
+  remote_user: deploy
   sudo: yes
   vars_files:
     - vars/metaobject.yml
