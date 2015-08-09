@@ -3,3 +3,4 @@
 - include: emacs.yml tags=emacs
 - include: ruby.yml tags=ruby
 - include: lisp.yml tags=lisp
+- include: ocaml.yml tags=ocaml

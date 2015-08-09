@@ -1,0 +1,43 @@
+---
+
+- name: Install OPAM for maximum OCaml goodness
+  apt: pkg={{ item }} state=present
+  with_items:
+    - opam
+    - opam-docs
+
+- name: Initialize OPAM
+  shell: opam init --auto-setup
+  args:
+    creates: /home/{{ default_user }}/.opam
+  become_user: "{{ default_user }}"
+
+- name: Add OPAM to shell init
+  lineinfile: name=/home/{{ default_user }}/.zshrc state=present
+    line="{{ item }}"
+  with_items:
+    - '. /home/{{ default_user }}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true'
+
+- name: Install a recent OCaml
+  shell: opam switch {{ ocaml_version }}
+  args:
+    creates: /home/{{ default_user }}/.opam/{{ ocaml_version }}
+  become_user: "{{ default_user }}"
+
+- name: Install common packages (from Real World OCaml)
+  shell: opam install -y core utop async yojson core_extended core_bench
+    cohttp async_graphics cryptokit menhir merlin ocp-indent
+  args:
+    creates: /home/{{ default_user }}/.opam/packages/merlin
+  become_user: "{{ default_user }}"
+
+- name: Use the Jane Street Core stdlib
+  lineinfile: name=/home/{{ default_user }}/.ocamlinit state=present
+    line="{{ item }}"
+  with_items:
+    - '#use \"topfind\";;'
+    - '#thread;;'
+    - '#camlp4o;;'
+    - '#require \"core.top\";;'
+    - '#require \"core.syntax\";;'
+    - 'open Core.Std;;'

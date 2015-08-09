@@ -1,9 +1,9 @@
 ---
 
-- name: Build ruby 2.2.2 via rbenv. Yeah, gross. :-/
-  shell: bash -lc "rbenv install 2.2.2 && rbenv global 2.2.2"
+- name: Build a recent ruby via rbenv
+  shell: bash -lc "rbenv install {{ ruby_version }} && rbenv global {{ ruby_version }}"
   args:
-    creates: /home/{{ default_user }}/.rbenv/versions/2.2.2
+    creates: /home/{{ default_user }}/.rbenv/versions/{{ ruby_version }}
 
 - name: Install some key gems too!
   shell: bash -lc "gem install bundler && gem install pry && rbenv rehash"
