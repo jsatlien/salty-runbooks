@@ -5,7 +5,7 @@
     dest=/home/{{ default_user }}/.rbenv
 
 - name: Add rbenv to PATH
-  lineinfile: name=/home/{{ default_user }}/.bash_profile
+  lineinfile: name=/home/{{ default_user }}/.zshrc
     line="{{ item }}" create=yes state=present
   with_items:
     - 'export PATH=\"$HOME/.rbenv/bin:$PATH\"'

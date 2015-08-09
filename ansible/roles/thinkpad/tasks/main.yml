@@ -5,3 +5,4 @@
   become_user: "{{ default_user }}"
 
 - include: basics.yml tags=basics
+- include: shell.yml tags=shell

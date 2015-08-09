@@ -1,0 +1,24 @@
+---
+
+- name: Install ZSH
+  apt: pkg=zsh state=present
+
+- name: Checkout prezto
+  git: repo=https://github.com/sorin-ionescu/prezto.git
+    dest=/home/{{ default_user }}/.zprezto recursive=yes
+  become_user: "{{ default_user }}"
+
+- name: Symlink prezto config files in place
+  file: src=/home/{{ default_user }}/.zprezto/runcoms/{{ item }}
+    dest=/home/{{ default_user }}/.{{ item }} state=link
+  with_items:
+    - zlogin
+    - zlogout
+    - zpreztorc
+    - zprofile
+    - zshenv
+    - zshrc
+  become_user: "{{ default_user }}"
+
+- name: Switch to zsh for a nicer shell experience
+  command: chsh -s /bin/zsh {{ default_user }}
