@@ -1,0 +1,19 @@
+---
+
+- name: Install useful and beloved apps
+  apt: pkg={{ item }} state=present
+  with_items:
+    - fortune-mod
+    - youtube-dl
+    - virtualbox
+    - rtorrent
+    - conkeror
+    - fceux
+    - bsnes
+    - pcsxr
+
+- name: Add lambda.txt fortune file
+  get_url: url=http://www.gotlisp.com/lambda/lambda.txt
+    dest=/home/{{ default_user }}/bin/builds/lambda
+  become_user: "{{ default_user }}"
+  notify: Fortunify lambda

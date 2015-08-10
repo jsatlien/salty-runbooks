@@ -6,3 +6,4 @@
 
 - include: basics.yml tags=basics
 - include: shell.yml tags=shell
+- include: apps.yml tags=apps
