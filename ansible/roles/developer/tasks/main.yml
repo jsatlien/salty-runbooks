@@ -4,3 +4,7 @@
 - include: ruby.yml tags=ruby
 - include: lisp.yml tags=lisp
 - include: ocaml.yml tags=ocaml
+- include: latex.yml tags=latex
+
+# TODO: Maybe add Pharo, Factor, Dylan?
+# TODO: Maybe add Clojure, Rust, or Erlang?
