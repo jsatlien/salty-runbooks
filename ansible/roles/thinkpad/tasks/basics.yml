@@ -52,8 +52,17 @@
     - nethogs
     - silversearcher-ag
 
+- name: Screw session saving
+  replace: regexp="(name=\"SaveOnExit\" type=\"string\") value=\".*\"" replace="\1 value=\"false\""
+    dest=/home/{{ default_user }}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
+
+- name: Really screw session saving
+  file: path=/home/{{ default_user }}/.cache/sessions state=absent
+
 - name: Caps Lock is an abomination
-  lineinfile: name=/home/{{ default_user }}/.xsession
+  lineinfile: name=/home/{{ default_user }}/.xsessionrc
     line="setxkbmap -option 'ctrl:nocaps'" create=yes state=present
+  become_user: "{{ default_user }}"
+
 
 # TODO: Maybe tighten SSHd security here? Allowed users, no root, etc.
