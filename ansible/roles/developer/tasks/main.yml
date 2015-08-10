@@ -6,5 +6,8 @@
 - include: ocaml.yml tags=ocaml
 - include: latex.yml tags=latex
 
+# TODO: Add VM images for Genera or Mezzano or weird Plan9 things?
+# TODO: Add repos I work on or interesting projects to read?
+
 # TODO: Maybe add Pharo, Factor, Dylan?
 # TODO: Maybe add Clojure, Rust, or Erlang?

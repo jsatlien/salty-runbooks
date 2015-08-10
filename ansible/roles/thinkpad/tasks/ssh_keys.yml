@@ -5,7 +5,10 @@
 
 - name: Add SSH private key for default user
   copy: src={{ default_user_pri_key }} dest=/home/{{ default_user }}/.ssh/id_rsa
-    mode=0600
+    mode=600
 
 - name: Add SSH config
   template: src=ssh_config.j2 dest=/home/{{ default_user }}/.ssh/config
+
+- name: Add AWS creds
+  copy: src="{{ lookup('env', 'HOME')}}/.aws" dest=/home/{{ default_user }}/.aws

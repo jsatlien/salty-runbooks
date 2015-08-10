@@ -8,6 +8,7 @@
     - virtualbox
     - rtorrent
     - conkeror
+    - s3cmd
     - fceux
     - bsnes
     - pcsxr
@@ -17,3 +18,9 @@
     dest=/home/{{ default_user }}/bin/builds/lambda
   become_user: "{{ default_user }}"
   notify: Fortunify lambda
+
+- name: Add conkeror config
+  template: src=conkeror.j2 dest=/home/{{ default_user }}/.conkerorrc
+  become_user: "{{ default_user }}"
+
+# TODO: Proprietary software? Renoise, Bitwig, Uhe plugins, Steam, Fez, etc?
