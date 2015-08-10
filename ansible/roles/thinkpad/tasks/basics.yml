@@ -52,4 +52,8 @@
     - nethogs
     - silversearcher-ag
 
+- name: Caps Lock is an abomination
+  lineinfile: name=/home/{{ default_user }}/.xsession
+    line="setxkbmap -option 'ctrl:nocaps'" create=yes state=present
+
 # TODO: Maybe tighten SSHd security here? Allowed users, no root, etc.
