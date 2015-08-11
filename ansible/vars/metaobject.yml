@@ -15,3 +15,4 @@ default_build_dir: /home/{{ default_user }}/bin/builds
 # TODO: Split these into vars files inside the roles?
 ruby_version: 2.2.2
 ocaml_version: 4.02.3
+clozure_version: 1.10

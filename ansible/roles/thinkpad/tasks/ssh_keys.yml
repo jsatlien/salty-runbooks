@@ -11,4 +11,4 @@
   template: src=ssh_config.j2 dest=/home/{{ default_user }}/.ssh/config
 
 - name: Add AWS creds
-  copy: src="{{ lookup('env', 'HOME')}}/.aws" dest=/home/{{ default_user }}/.aws
+  template: src=aws_creds.j2 dest=/home/{{ default_user}}/.aws

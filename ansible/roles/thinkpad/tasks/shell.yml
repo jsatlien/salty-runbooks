@@ -5,7 +5,7 @@
 
 - name: Checkout prezto
   git: repo=https://github.com/sorin-ionescu/prezto.git
-    dest=/home/{{ default_user }}/.zprezto recursive=yes
+    dest=/home/{{ default_user }}/.zprezto recursive=yes force=yes
   become_user: "{{ default_user }}"
 
 - name: Symlink prezto config files in place

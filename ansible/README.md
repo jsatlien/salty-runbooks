@@ -26,3 +26,19 @@ Toplevel tags are roles while nested tags are includes.
   * groovebasin
 
 ## metaobject
+
+* thinkpad
+  * ssh_keys
+  * basics
+  * shell
+  * apps
+* developer
+  * emacs
+  * ruby
+    * rbenv
+    * mri
+  * lisp
+    * clozure
+    * quicklisp
+  * ocaml
+  * latex

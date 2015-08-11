@@ -5,7 +5,7 @@
   become_user: "{{ default_user }}"
 
 - name: Checkout a copy of Clozure CL
-  subversion: repo=http://svn.clozure.com/publicsvn/openmcl/release/1.10/linuxx86/ccl
+  subversion: repo=http://svn.clozure.com/publicsvn/openmcl/release/{{ clozure_version }}/linuxx86/ccl
     dest={{ default_build_dir}}/ccl force=yes
   become_user: "{{ default_user }}"
 
