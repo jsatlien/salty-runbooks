@@ -6,7 +6,7 @@
 - name: Get latest shaarli version
   git: repo=git://github.com/sebsauvage/Shaarli.git
     dest=/srv/www/trace.kingcons.io
-    accept_hostkey=yes
+    accept_hostkey=yes force=yes
 
 - name: Fix directory permissions
   file: state=directory path=/srv/www/trace.kingcons.io
