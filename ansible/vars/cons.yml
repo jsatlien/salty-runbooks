@@ -30,6 +30,7 @@ blog_analytics_code: UA-37659929-1
 blog_title: Improved Means for Achieving Deteriorated Ends
 
 ### miscellaneous database settings
+pg_version: 9.4
 db_admin_pass: todo
 
 ### gotta have that email

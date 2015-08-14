@@ -3,7 +3,7 @@
 - name: Install database packages
   apt: pkg={{ item }} state=present
   with_items:
-    - postgresql
+    - postgresql-{{ pg_version }}
     - python-psycopg2
 
 - name: Set postgres password
@@ -18,6 +18,6 @@
 ## database-using app, we'll enable password-based login locally.
 
 - name: Enable password-based login
-  replace: dest=/etc/postgresql/9.1/main/pg_hba.conf
+  replace: dest=/etc/postgresql/{{ pg_version }}/main/pg_hba.conf
     regexp='^local\s+all\s+all\s+peer$' replace='local  all  all  md5'
   notify: restart postgres
