@@ -28,9 +28,7 @@
     - http
     - https
 
-# TODO:
-# At some point we should use the nginx-ssl config here.
-# Maybe once let's encrypt is up or I'm not self-signing.
+# TODO: Use nginx-ssl config here. Maybe once I'm not self-signing?
 - name: Add basic nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
   notify: restart nginx
