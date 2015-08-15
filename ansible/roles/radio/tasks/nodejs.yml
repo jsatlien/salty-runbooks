@@ -9,7 +9,7 @@
     - gcc
     - cpp
     - g++
-    - automake1.9
+    - automake
     - autoconf
     - libtool
     - flex

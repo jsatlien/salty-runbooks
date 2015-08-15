@@ -76,9 +76,8 @@ irc_password_hash: todo
 irc_password_salt: todo
 
 # you know what's awesome? self-hosted cloud radio
-s3fs_version: 1.78
-libav_version: 10.5
-nodejs_version: v0.10.33
+s3fs_version: 1.79
+nodejs_version: v0.12.7
 s3_access_key: todo
 s3_secret_key: todo
 s3_mountpoints: todo

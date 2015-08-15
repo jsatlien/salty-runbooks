@@ -4,9 +4,12 @@
   apt: pkg={{ item }} state=installed
   with_items:
     - build-essential
+    - pkg-config
     - libfuse-dev
-    - fuse-utils
+    - fuse
     - libcurl4-openssl-dev
+    - libcrypto++-dev
+    - libssl-dev
     - libxml2-dev
     - mime-support
     - automake
@@ -21,8 +24,16 @@
     dest={{ default_build_dir }} copy=no
     creates={{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}
 
+- name: Configure s3fs
+  shell: ./autogen.sh && ./configure --with-openssl --prefix=/usr
+  args:
+    chdir: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}"
+    creates: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}/config.status"
+
+# TODO: Some weirdness with mounting on the initial run.
+# Do we need to reboot so that the kernel module is active? Ugh.
 - name: Install s3fs
-  shell: ./autogen.sh && ./configure --prefix=/usr && make && make install
+  shell: make && make install
   args:
     chdir: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}"
     creates: /usr/bin/s3fs
@@ -36,5 +47,5 @@
 
 - name: Add any mountpoints to fstab
   mount: name={{ item.path }} state=mounted fstype=fuse
-    src='s3fs#{{ item.bucket }}' opts=allow_other,uid=radio,gid=radio
+    src='s3fs#{{ item.bucket }}' opts="allow_other,uid=radio,gid=radio"
   with_items: s3_mountpoints

@@ -1,20 +1,26 @@
 ---
 
+- name: Install libgroove debian packages. Hooray!
+  apt: pkg={{ item }} state=present
+  with_items:
+    - libgroove-dev
+    - libgrooveplayer-dev
+    - libgrooveloudness-dev
+    - libgroovefingerprinter-dev
+
 - name: Create Groovebasin user
   user: name=radio state=present groups=ssl-cert
 
 - name: Checkout groovebasin
   git: repo=git://github.com/andrewrk/groovebasin.git
     dest=/home/radio/groovebasin accept_hostkey=yes
-  sudo: yes
-  sudo_user: radio
+  become_user: radio
 
 - name: Fetch dependencies
   shell: npm run build
   args:
     chdir: /home/radio/groovebasin
-  sudo: yes
-  sudo_user: radio
+  become_user: radio
 
 - name: Add groovebasin config
   template: src=groovebasin.j2 dest=/home/radio/groovebasin/config.json

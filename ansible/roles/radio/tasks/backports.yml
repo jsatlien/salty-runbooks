@@ -1,5 +1,0 @@
----
-
-- name: add backports repository
-  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main'
-    state=present update_cache=yes
