@@ -33,13 +33,8 @@
     -f /etc/postfix/import.sql --set ON_ERROR_STOP=1
   notify: restart postfix
 
-- name: Check for postfix main config
-  stat: path=/etc/postfix/main.cf
-  register: pf_conf
-
 - name: Add main.cf
   template: src=main.conf.j2 dest=/etc/postfix/main.cf owner=root group=root
-  when: not pf_conf.stat.exists
   notify: restart postfix
 
 - name: Copy master config and header checks
