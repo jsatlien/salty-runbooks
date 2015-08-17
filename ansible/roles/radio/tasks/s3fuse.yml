@@ -46,6 +46,6 @@
   with_items: s3_mountpoints
 
 - name: Add any mountpoints to fstab
-  mount: name={{ item.path }} state=mounted fstype=fuse
+  mount: name={{ item.path }} state=present fstype=fuse
     src='s3fs#{{ item.bucket }}' opts="allow_other,uid=radio,gid=radio"
   with_items: s3_mountpoints
