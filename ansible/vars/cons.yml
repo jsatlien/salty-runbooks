@@ -60,6 +60,9 @@ vmail_aliases:
   - source: "webmaster@{{ domain }}"
     destination: "{{ admin_email }}"
     domain_pk_id: 1
+  - source: "abuse@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
 
 vmail_domains:
   - name: "{{ domain }}"

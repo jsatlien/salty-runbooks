@@ -1,5 +1,8 @@
 ---
 
+## TODO: Figure out why Dovecot doesn't seem to be listening on IMAP ports.
+## Then get rspamd installed and we'll go from there.
+
 - name: Install Dovecot and related packages
   apt: pkg={{ item }} state=present
   with_items:
