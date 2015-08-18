@@ -24,6 +24,7 @@
 
 - name: Add groovebasin config
   template: src=groovebasin.j2 dest=/home/radio/groovebasin/config.json
+    owner=radio group=radio
 
 - name: Make groovebasin log dir
   file: path=/var/log/nginx/dj.{{ domain }} mode=755 state=directory
