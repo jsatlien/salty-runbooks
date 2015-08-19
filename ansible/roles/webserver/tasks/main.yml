@@ -5,6 +5,7 @@
   with_items:
     - nginx
     - apache2-utils
+    - python-passlib
 
 - name: Remove default nginx config files
   file: path=/etc/nginx/sites-{{ item }}/default state=absent
