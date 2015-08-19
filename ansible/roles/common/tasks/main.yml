@@ -12,6 +12,7 @@
     - apt-file
     - apt-transport-https
     - build-essential
+    - dstat
     - htop
     - iftop
     - iotop
@@ -23,6 +24,7 @@
     - rsync
     - screen
     - strace
+    - slurm
     - sudo
     - unattended-upgrades
     - vim

@@ -85,3 +85,4 @@ s3_access_key: todo
 s3_secret_key: todo
 s3_mountpoints: todo
 # mountpoint should be of the form: - { path: /foo, bucket: foo.bar }
+radio_users: todo

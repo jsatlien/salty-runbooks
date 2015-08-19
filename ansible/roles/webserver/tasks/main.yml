@@ -1,7 +1,10 @@
 ---
 
-- name: Install nginx
-  apt: pkg=nginx state=present
+- name: Install relevant packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - nginx
+    - apache2-utils
 
 - name: Remove default nginx config files
   file: path=/etc/nginx/sites-{{ item }}/default state=absent
