@@ -7,15 +7,13 @@
 - name: Create bare repo
   command: git init --bare chdir=/home/git/{{ blog_repo_dir }}
     creates=/home/git/{{ blog_repo_dir }}/HEAD
-  sudo: yes
-  sudo_user: git
+  become_user: git
 
 - name: Create a coleslaw checkout
   git: repo=git://github.com/redline6561/coleslaw.git
     dest=/home/git/quicklisp/local-projects/coleslaw
     accept_hostkey=yes
-  sudo: yes
-  sudo_user: git
+  become_user: git
 
 - name: Ensure post-receive hook is in bare repo
   shell: rsync -ci /home/git/quicklisp/local-projects/coleslaw/examples/example.post-receive /home/git/improvedmeans.git/hooks/post-receive

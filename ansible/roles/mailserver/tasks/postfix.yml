@@ -15,14 +15,12 @@
 - name: Create database user for mail server
   postgresql_user: name={{ db_mail_user }} password="{{ db_mail_pass }}"
     state=present encrypted=yes
-  sudo: yes
-  sudo_user: postgres
+  become_user: postgres
 
 - name: Create database for mail server
   postgresql_db: name={{ db_mail_database }} owner={{ db_mail_user }}
     state=present
-  sudo: yes
-  sudo_user: postgres
+  become_user: postgres
 
 - name: Copy import.sql
   template: src=import_sql.j2 dest=/etc/postfix/import.sql owner=root group=root mode=0600

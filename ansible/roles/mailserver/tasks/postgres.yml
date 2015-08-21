@@ -9,8 +9,7 @@
 - name: Set postgres password
   postgresql_user: db=postgres name=postgres password="{{ db_admin_pass }}"
     encrypted=yes
-  sudo: yes
-  sudo_user: postgres
+  become_user: postgres
 
 ## NOTE: By default, debian postgres/psql does authentication based on
 ## the linux user running it for unix sockets and md5'd passwords for
