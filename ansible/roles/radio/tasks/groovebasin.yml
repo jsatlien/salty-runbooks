@@ -35,7 +35,7 @@
   with_items: radio_users
 
 - name: Add nginx config for dj.kingcons.io
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.kingcons.io.conf
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.{{ domain }}.conf
   notify: restart nginx
 
 - name: Add groovebasin service to init.d

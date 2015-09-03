@@ -40,7 +40,7 @@
     state=directory
 
 - name: Add an nginx template for the blog
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/blog.kingcons.io.conf
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/blog.{{ domain }}.conf
   notify: restart nginx
 
 #TODO: Set sitenav from config.
