@@ -1,0 +1,24 @@
+---
+
+- name: Add mediagoblin configuration
+  template: src={{ item }}.j2 dest=/srv/www/media.{{ domain }}/mediagoblin/{{ item }}_local.ini
+    owner=mediagoblin group=www-data
+  with_items:
+    - mediagoblin
+    - paste
+  become_user: "{{ mediagoblin_user }}"
+
+- name: Create mediagoblin log dir
+  file: path=/var/log/nginx/media.{{ domain }} mode=755 state=directory
+
+- name: Add NGINX config
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/media.{{ domain }}.conf 
+  notify: restart nginx
+
+# - name: Add mediagoblin users
+#   shell: ./bin/gmg adduser {{ item }}
+#   with_items:
+#     - foo
+#     - bar
+#   become_user: "{{ mediagoblin_user }}"
+#   notify: restart mediagoblin

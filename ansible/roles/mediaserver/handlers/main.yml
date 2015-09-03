@@ -1,0 +1,7 @@
+---
+
+- name: restart mediagoblin
+  shell: ./lazyserver.sh --server-name=fcgi fcgi_host=127.0.0.1 fcgi_port=26543
+  args:
+    chdir: /srv/www/media.{{ domain }}/mediagoblin
+  become_user: "{{ mediagoblin_user }}"

@@ -1,0 +1,20 @@
+---
+
+- name: Install mediagoblin dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-dev
+    - python-lxml
+    - python-imaging
+    - python-virtualenv
+    - automake
+
+# Nodejs is installed by the Radio role
+# Not best practice I realize but meh
+
+- name: Create mediagoblin group
+  group: name=mediagoblin state=present
+
+- name: Create mediagoblin user
+  user: name={{ mediagoblin_user }} state=present groups=ssl-cert,www-data,mediagoblin
+    home=/var/lib/mediagoblin system=yes

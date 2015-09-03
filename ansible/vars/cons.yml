@@ -86,3 +86,7 @@ s3_secret_key: todo
 s3_mountpoints: todo
 # mountpoint should be of the form: - { path: /foo, bucket: foo.bar }
 radio_users: todo
+
+# Add a user for mediagoblin
+mediagoblin_user: mediagoblin
+db_media_database: mediagoblin
