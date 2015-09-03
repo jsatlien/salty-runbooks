@@ -7,16 +7,5 @@
     - python-psycopg2
 
 - name: Set postgres password
-  postgresql_user: db=postgres name=postgres password="{{ db_admin_pass }}"
-    encrypted=yes
+  postgresql_user: db=postgres name=postgres
   become_user: postgres
-
-## NOTE: By default, debian postgres/psql does authentication based on
-## the linux user running it for unix sockets and md5'd passwords for
-## tcp/ip connections. Rather than create a unix user for every stupid
-## database-using app, we'll enable password-based login locally.
-
-- name: Enable password-based login
-  replace: dest=/etc/postgresql/{{ pg_version }}/main/pg_hba.conf
-    regexp='^local\s+all\s+all\s+peer$' replace='local  all  all  md5'
-  notify: restart postgres
