@@ -15,10 +15,9 @@
   template: src=nginx.j2 dest=/etc/nginx/conf.d/media.{{ domain }}.conf 
   notify: restart nginx
 
-# - name: Add mediagoblin users
-#   shell: ./bin/gmg adduser {{ item }}
-#   with_items:
-#     - foo
-#     - bar
-#   become_user: "{{ mediagoblin_user }}"
-#   notify: restart mediagoblin
+- name: Add mediagoblin users
+  shell: ./bin/gmg adduser -e {{ item.email }} -u {{ item.user }} -p {{ item.pass }}
+  args:
+    chdir: /srv/www/media.{{ domain }}/mediagoblin
+  with_items: "{{ media_users }}"
+  become_user: "{{ mediagoblin_user }}"
