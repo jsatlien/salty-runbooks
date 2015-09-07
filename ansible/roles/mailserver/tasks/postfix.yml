@@ -2,9 +2,10 @@
 - name: Remove default exim4 install
   apt: pkg=exim4 state=absent
 
-- name: Install postfix packages
+- name: Install postfix packages (and mutt)
   apt: pkg={{ item }} state=present
   with_items:
+    - mutt
     - libsasl2-modules
     - postfix
     - postfix-pcre
@@ -13,7 +14,7 @@
     - sasl2-bin
 
 - name: Create database user for mail server
-  postgresql_user: name={{ db_mail_user }} state=present password=NULL
+  postgresql_user: name={{ db_mail_user }} password={{ db_mail_pass }} state=present encrypted=yes
   become_user: postgres
 
 - name: Create database for mail server
