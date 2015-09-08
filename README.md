@@ -12,7 +12,7 @@ You'll need to describe your servers in a [hosts file][inventory].
 
 [inventory]: http://docs.ansible.com/intro_inventory.html
 
-The primary playbook `cons.yml` was designed with Debian Wheezy
+The primary playbook `cons.yml` was designed with Debian Jessie
 servers in mind and will require tweaking to run elsewhere.
 
 The secondary playbook `metaobject.yml` is designed to build a Debian Jessie
