@@ -19,8 +19,6 @@ Toplevel tags are roles while nested tags are includes.
 * bookmarks
 * irc
 * radio
-  * backports
-  * libgroove
   * nodejs
   * s3fs
   * groovebasin
