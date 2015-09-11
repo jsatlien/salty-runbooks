@@ -8,6 +8,24 @@
     - python-imaging
     - python-virtualenv
     - automake
+    - poppler-utils # For the PDF plugin.
+    # Also goodies for the audio plugin.
+    - python-gst-1.0
+    - gstreamer1.0-plugins-base
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-good
+    - gstreamer1.0-plugins-ugly
+    - gstreamer1.0-libav
+    - python-numpy
+    - python-scipy
+    - libsndfile1-dev
+    - libasound2-dev
+    # Aaand the video plugin.
+    - python-gi
+    - python3-gi
+    - gstreamer1.0-tools
+    - gir1.2-gstreamer-1.0
+    - gir1.2-gst-plugins-base-1.0
 
 # Nodejs is installed by the Radio role
 # Not best practice I realize but meh

@@ -79,4 +79,4 @@
 
 - name: Add bash alias for mutt usage to default user
   lineinfile: dest=/home/{{ default_user }}/.bash_aliases create=yes state=present
-    line="alias email='sudo su vmail -s /bin/bash -c \'mutt -f /home/vmail/{{ domain }}/{{ email_user }}\''" 
+    line="alias email='sudo su vmail -s /bin/bash -c \'mutt -f /home/vmail/{{ domain }}/{{ email_user }}\''"

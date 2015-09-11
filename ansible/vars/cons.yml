@@ -93,3 +93,7 @@ db_media_database: mediagoblin
 media_users: todo
 ## Format for entries is:
 # - { email: "foo@bar.com", user: "baz", pass: "quux" }
+
+media_admins: todo
+## Format for entries is:
+# - username

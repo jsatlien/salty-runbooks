@@ -26,3 +26,10 @@
     chdir: /srv/www/media.{{ domain }}/mediagoblin
   become_user: "{{ mediagoblin_user }}"
   changed_when: false # never report as changed
+
+- name: Install scikits for Audio plugin
+  shell: ./bin/pip install scikits.audiolab
+  args:
+    chdir: /srv/www/media.{{ domain }}/mediagoblin
+  become_user: "{{ mediagoblin_user }}"
+  changed_when: false

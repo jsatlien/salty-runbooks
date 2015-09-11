@@ -7,13 +7,18 @@
     - mediagoblin
     - paste
   become_user: "{{ mediagoblin_user }}"
+  notify: run migrations
 
-- name: Create mediagoblin log dir
+- name: Create nginx log dir
   file: path=/var/log/nginx/media.{{ domain }} mode=755 state=directory
 
 - name: Add NGINX config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/media.{{ domain }}.conf 
   notify: restart nginx
+
+- name: Create mediagoblin log dir
+  file: path=/var/log/mediagoblin mode=755 state=directory
+    owner={{ mediagoblin_user }} group={{ mediagoblin_user }}
 
 - name: Add mediagoblin users
   shell: ./bin/gmg adduser -e {{ item.email }} -u {{ item.user }} -p {{ item.pass }}
@@ -21,3 +26,17 @@
     chdir: /srv/www/media.{{ domain }}/mediagoblin
   with_items: "{{ media_users }}"
   become_user: "{{ mediagoblin_user }}"
+
+- name: Set admins as necessary
+  shell: ./bin/gmg makeadmin {{ item }}
+  args:
+    chdir: /srv/www/media.{{ domain }}/mediagoblin
+  with_items: "{{ media_admins }}"
+  become_user: "{{ mediagoblin_user }}"
+
+- name: Add mediagoblin service
+  template: src={{ item }}-service.j2 dest=/etc/systemd/system/mediagoblin-{{ item }}.service
+  with_items:
+    - celery
+    - paster
+  notify: restart mediagoblin
