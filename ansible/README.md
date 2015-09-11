@@ -24,6 +24,11 @@ Toplevel tags are roles while nested tags are includes.
   * nodejs
   * s3fs
   * groovebasin
+* media
+  * media_basics
+  * mediagoblin
+  * media_db
+  * media_config
 
 ## metaobject
 

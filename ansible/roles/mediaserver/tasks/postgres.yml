@@ -1,0 +1,22 @@
+---
+
+- name: Install dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - postgresql-{{ pg_version }}
+    - python-psycopg2
+
+- name: Create database user for media server
+  postgresql_user: name={{ mediagoblin_user }} state=present password=NULL
+  become_user: postgres
+
+- name: Create database for media server
+  postgresql_db: name={{ db_media_database }} owner={{ mediagoblin_user }}
+    state=present encoding=UNICODE
+  become_user: postgres
+
+- name: Initial DB setup
+  shell: ./bin/gmg dbupdate
+  args:
+    chdir: /srv/www/media.{{ domain }}/mediagoblin
+  become_user: "{{ mediagoblin_user }}"

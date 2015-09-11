@@ -1,7 +1,17 @@
 ---
 
-- name: Install nginx
-  apt: pkg=nginx state=present
+- name: Install relevant packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - nginx
+    - apache2-utils
+    - python-passlib
+
+- name: Remove default nginx config files
+  file: path=/etc/nginx/sites-{{ item }}/default state=absent
+  with_items:
+    - enabled
+    - available
 
 - name: Make nginx logdir
   file: path=/var/log/nginx/{{ domain }} mode=755 state=directory
@@ -22,9 +32,7 @@
     - http
     - https
 
-# TODO:
-# At some point we should use the nginx-ssl config here.
-# Maybe once let's encrypt is up or I'm not self-signing.
+# TODO: Use nginx-ssl config here. Maybe once I'm not self-signing?
 - name: Add basic nginx config
   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ domain }}.conf
   notify: restart nginx

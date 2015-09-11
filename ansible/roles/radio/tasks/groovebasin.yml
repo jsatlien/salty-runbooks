@@ -1,34 +1,51 @@
 ---
 
+- name: Install libgroove debian packages. Hooray!
+  apt: pkg={{ item }} state=present
+  with_items:
+    - libgroove-dev
+    - libgrooveplayer-dev
+    - libgrooveloudness-dev
+    - libgroovefingerprinter-dev
+
 - name: Create Groovebasin user
   user: name=radio state=present groups=ssl-cert
 
+- name: Create groovebasin working directory
+  file: path=/srv/www/dj.{{ domain }} owner=radio group=www-data
+    state=directory
+
 - name: Checkout groovebasin
   git: repo=git://github.com/andrewrk/groovebasin.git
-    dest=/home/radio/groovebasin accept_hostkey=yes
-  sudo: yes
-  sudo_user: radio
+    dest=/srv/www/dj.{{ domain }}/groovebasin accept_hostkey=yes
+  become_user: radio
 
 - name: Fetch dependencies
   shell: npm run build
   args:
-    chdir: /home/radio/groovebasin
-  sudo: yes
-  sudo_user: radio
+    chdir: /srv/www/dj.{{ domain }}/groovebasin
+  become_user: radio
 
 - name: Add groovebasin config
-  template: src=groovebasin.j2 dest=/home/radio/groovebasin/config.json
+  template: src=groovebasin.j2 dest=/srv/www/dj.{{ domain }}/groovebasin/config.json
+    owner=radio group=radio
 
 - name: Make groovebasin log dir
   file: path=/var/log/nginx/dj.{{ domain }} mode=755 state=directory
 
+- name: Create htpasswd file for any needed users
+  htpasswd: name={{ item.user }} password={{ item.pass }}
+    path=/etc/nginx/htpasswd state=present
+  with_items: radio_users
+
 - name: Add nginx config for dj.kingcons.io
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.kingcons.io.conf
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.{{ domain }}.conf
   notify: restart nginx
 
 - name: Add groovebasin service to init.d
   template: src=service.j2 dest=/etc/init.d/groovebasin mode=755
 
+# Still need to figure out why i'm running this in a screen session. *sigh*
 - name: Set defaults for groovebasin service and start it
   shell: update-rc.d groovebasin defaults
-  notify: restart groovebasin
+#  notify: restart groovebasin

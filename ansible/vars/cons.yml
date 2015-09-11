@@ -30,6 +30,7 @@ blog_analytics_code: UA-37659929-1
 blog_title: Improved Means for Achieving Deteriorated Ends
 
 ### miscellaneous database settings
+pg_version: 9.4
 db_admin_pass: todo
 
 ### gotta have that email
@@ -59,6 +60,9 @@ vmail_aliases:
   - source: "webmaster@{{ domain }}"
     destination: "{{ admin_email }}"
     domain_pk_id: 1
+  - source: "abuse@{{ domain }}"
+    destination: "{{ admin_email }}"
+    domain_pk_id: 1
 
 vmail_domains:
   - name: "{{ domain }}"
@@ -75,10 +79,21 @@ irc_password_hash: todo
 irc_password_salt: todo
 
 # you know what's awesome? self-hosted cloud radio
-s3fs_version: 1.78
-libav_version: 10.5
-nodejs_version: v0.10.33
+s3fs_version: 1.79
+nodejs_version: v0.12.7
 s3_access_key: todo
 s3_secret_key: todo
 s3_mountpoints: todo
 # mountpoint should be of the form: - { path: /foo, bucket: foo.bar }
+radio_users: todo
+
+# Add a user for mediagoblin
+mediagoblin_user: mediagoblin
+db_media_database: mediagoblin
+media_users: todo
+## Format for entries is:
+# - { email: "foo@bar.com", user: "baz", pass: "quux" }
+
+media_admins: todo
+## Format for entries is:
+# - username

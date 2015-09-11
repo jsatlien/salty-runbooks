@@ -2,38 +2,8 @@
 
 # See: http://wiki.znc.in/Running_ZNC_as_a_system_daemon
 
-- name: Install znc dependencies
-  apt: pkg={{ item }} state=present
-  with_items:
-    - automake
-    - build-essential
-    - checkinstall
-    - g++
-    - libperl-dev
-    - libsasl2-dev
-    - libssl-dev
-    - libtool
-    - openssl
-    - pkg-config
-    - python3-dev
-    - swig
-
-- name: Download znc release
-  get_url: url=http://znc.in/releases/archive/znc-{{ znc_version }}.tar.gz
-    dest=/root/znc-{{ znc_version }}.tar.gz
-
-- name: Decompress znc source
-  command: tar xzf /root/znc-{{ znc_version }}.tar.gz
-  args:
-    chdir: /root
-    creates: /root/znc-{{ znc_version }}/configure
-
-- name: Build and install znc
-  shell: ./configure --enable-python && make && make install
-  args:
-    chdir: /root/znc-{{ znc_version }}
-    creates: /usr/local/bin/znc
-    executable: /bin/bash
+- name: Install znc
+  apt: pkg=znc state=present
 
 - name: Create znc group
   group: name=znc state=present
@@ -42,8 +12,8 @@
   user: name=znc group=znc state=present home=/var/lib/znc
     system=yes shell=/usr/sbin/nologin
 
-- name: Copy znc init file into place
-  copy: src=znc.init dest=/etc/init.d/znc mode=0755
+- name: Add ZNC systemd service
+  copy: src=znc.service dest=/etc/systemd/system/znc.service
 
 - name: Create a combined version of the private key with public cert and intermediate + root CAs
   shell: cat {{ ssl_key_path }} {{ ssl_cert_path }} > /var/lib/znc/znc.pem
@@ -52,18 +22,18 @@
 - name: Ensure znc user and group can read cert
   file: path=/var/lib/znc/znc.pem group=znc owner=znc mode=640
 
+- name: Create znc config directory
+  file: path=/var/lib/znc/configs state=directory group=znc owner=znc
+
 - name: Check for existing config file
   command: cat /var/lib/znc/configs/znc.conf
   register: znc_config
   ignore_errors: True
   changed_when: False  # never report as "changed"
 
-- name: Create znc config directory
-  file: state=directory path=/var/lib/znc/configs group=znc owner=znc
-
 - name: Copy znc configuration file into place
   template: src=znc.conf.j2 dest=/var/lib/znc/configs/znc.conf
-    owner=znc group=znc
+   owner=znc group=znc
   when: znc_config.rc != 0
   notify: restart znc
 

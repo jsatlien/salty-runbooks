@@ -1,5 +1,10 @@
 ---
 
+## TODO: Figure out why Dovecot isn't listening on IMAP ports.
+## Current prevailing theory is that antispam/sieve is fucking shit up somehow.
+## Try sudo lsof -a -pDOVECOT -i4 to check for TCP bindings.
+## At some point, I'll be a responsible adult about this. For now, ssh and mutt.
+
 - name: Install Dovecot and related packages
   apt: pkg={{ item }} state=present
   with_items:
@@ -71,3 +76,7 @@
 
 - name: Set firewall rules for dovecot
   ufw: rule=allow port=imaps proto=tcp
+
+- name: Add bash alias for mutt usage to default user
+  lineinfile: dest=/home/{{ default_user }}/.bash_aliases create=yes state=present
+    line="alias email='sudo su vmail -s /bin/bash -c \'mutt -f /home/vmail/{{ domain }}/{{ email_user }}\''"

@@ -5,7 +5,7 @@
   sudo: yes
   vars_files:
     - vars/metaobject.yml
-    #- vars/private.yml
+    - vars/private.yml
   roles:
     - { role: thinkpad, tags: ['thinkpad'] }
     - { role: developer, tags: ['developer'] }

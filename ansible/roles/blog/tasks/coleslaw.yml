@@ -7,15 +7,13 @@
 - name: Create bare repo
   command: git init --bare chdir=/home/git/{{ blog_repo_dir }}
     creates=/home/git/{{ blog_repo_dir }}/HEAD
-  sudo: yes
-  sudo_user: git
+  become_user: git
 
 - name: Create a coleslaw checkout
   git: repo=git://github.com/redline6561/coleslaw.git
     dest=/home/git/quicklisp/local-projects/coleslaw
     accept_hostkey=yes
-  sudo: yes
-  sudo_user: git
+  become_user: git
 
 - name: Ensure post-receive hook is in bare repo
   shell: rsync -ci /home/git/quicklisp/local-projects/coleslaw/examples/example.post-receive /home/git/improvedmeans.git/hooks/post-receive
@@ -38,11 +36,11 @@
   file: path=/var/log/nginx/blog.{{ domain }} mode=755 state=directory
 
 - name: Make blog html dir
-  file: path=/srv/www/blog.{{ domain }} owner=git group=git mode=755
+  file: path=/srv/www/blog.{{ domain }} owner=git group=www-data mode=755
     state=directory
 
 - name: Add an nginx template for the blog
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/blog.kingcons.io.conf
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/blog.{{ domain }}.conf
   notify: restart nginx
 
 #TODO: Set sitenav from config.

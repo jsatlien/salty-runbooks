@@ -1,15 +1,12 @@
 ---
 
-# NOTE: Currently unused but I went through the trouble to write it...
-# so what the hell, we'll version it.
-
 - name: Install node.js build deps
   apt: pkg={{ item }} state=present
   with_items:
     - gcc
     - cpp
     - g++
-    - automake1.9
+    - automake
     - autoconf
     - libtool
     - flex

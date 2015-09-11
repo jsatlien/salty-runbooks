@@ -1,6 +1,5 @@
 ---
 
-# Install lisp packages as needed.
 - name: Install lisp packages
   apt: pkg={{ item }} state=latest
   with_items:
@@ -22,12 +21,6 @@
     dest={{ default_build_dir }} copy=no
     owner={{ default_user }} group={{ default_user }} mode=755
     creates={{ default_build_dir }}/ccl
-
-- name: Rebuild Clozure for old glibc (< 2.14)
-  command: make
-  args:
-    chdir: "{{ default_build_dir }}/ccl/lisp-kernel/linuxx8664"
-    creates: "{{ default_build_dir }}/ccl/lisp-kernel/linuxx8664/pad.o"
 
 - name: Symlink ccl64
   file: src={{ default_build_dir }}/ccl/lx86cl64

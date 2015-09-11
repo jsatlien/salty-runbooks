@@ -7,8 +7,7 @@
   args:
     chdir: /home/git/
     creates: /home/git/quicklisp
-  sudo: yes
-  sudo_user: git
+  become_user: git
 
 - name: Copy CCL init file for quicklisp support.
   copy: src=ccl-init.lisp dest=/home/git/.ccl-init.lisp

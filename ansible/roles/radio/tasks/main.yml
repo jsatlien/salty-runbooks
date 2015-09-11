@@ -1,7 +1,5 @@
 ---
 
-- include: backports.yml tags=backports
-- include: libgroove.yml tags=libgroove
 - include: nodejs.yml tags=nodejs
 - include: s3fuse.yml tags=s3fs
-- include: groovebasin.yml tags=groovebasin.yml
+- include: groovebasin.yml tags=groovebasin

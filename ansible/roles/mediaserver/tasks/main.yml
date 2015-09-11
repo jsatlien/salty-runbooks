@@ -1,0 +1,6 @@
+---
+
+- include: basics.yml tags=media_basics
+- include: mediagoblin.yml tags=mediagoblin
+- include: postgres.yml tags=media_db
+- include: config.yml tags=media_config

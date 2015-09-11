@@ -4,9 +4,12 @@
   apt: pkg={{ item }} state=installed
   with_items:
     - build-essential
+    - pkg-config
     - libfuse-dev
-    - fuse-utils
+    - fuse
     - libcurl4-openssl-dev
+    - libcrypto++-dev
+    - libssl-dev
     - libxml2-dev
     - mime-support
     - automake
@@ -21,8 +24,16 @@
     dest={{ default_build_dir }} copy=no
     creates={{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}
 
+- name: Configure s3fs
+  shell: ./autogen.sh && ./configure --with-openssl --prefix=/usr
+  args:
+    chdir: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}"
+    creates: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}/config.status"
+
+# TODO: Some weirdness with mounting on the initial run.
+# Do we need to reboot so that the kernel module is active? Ugh.
 - name: Install s3fs
-  shell: ./autogen.sh && ./configure --prefix=/usr && make && make install
+  shell: make && make install
   args:
     chdir: "{{ default_build_dir }}/s3fs-fuse-{{ s3fs_version }}"
     creates: /usr/bin/s3fs
@@ -34,7 +45,22 @@
   file: path={{ item.path }} state=directory
   with_items: s3_mountpoints
 
+- name: Create cache
+  file: path={{ item.cache }} state=directory owner=radio group=radio
+  with_items: s3_mountpoints
+
+- name: Add bin directory for radio user
+  file: path=/home/radio/bin state=directory
+
+- name: Add python script for deleting old cache entries
+  copy: src=dir_quota.py dest=/home/radio/bin/dir_quota.py owner=radio group=radio
+
+- name: Add cronjob to run python script
+  cron: name="s3fs_quota {{ item.cache }}" special_time=daily state=present
+    job="/home/radio/bin/dir_quota.py {{ item.cache }}" user=radio
+  with_items: s3_mountpoints
+
 - name: Add any mountpoints to fstab
-  mount: name={{ item.path }} state=mounted fstype=fuse
-    src='s3fs#{{ item.bucket }}' opts=allow_other,uid=radio,gid=radio
+  mount: name={{ item.path }} state=mounted fstype=fuse src='s3fs#{{ item.bucket }}'
+    opts="allow_other,uid=radio,gid=radio,use_cache={{ item.cache }},max_stat_cache_size=40000"
   with_items: s3_mountpoints
