@@ -57,7 +57,8 @@
 
 - name: Add cronjob to run python script
   cron: name="s3fs_quota {{ item.cache }}" special_time=daily state=present
-    job="/home/radio/bin/dir_quota.py {{ item.cache }}" user=radio
+    job="/home/radio/bin/dir_quota.py {{ item.cache }}" user=root
+    # Root needs to run this script since the s3fs cache is written to by root. :-/
   with_items: s3_mountpoints
 
 - name: Add any mountpoints to fstab
