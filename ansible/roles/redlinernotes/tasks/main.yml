@@ -1,0 +1,22 @@
+---
+
+- name: Create redlinernotes working directory
+  file: path=/srv/www/redlinernotes.com
+    owner={{ default_user }} group=www-data state=directory
+
+- name: Extract old redlinernotes files to srv
+  unarchive: src={{ default_home }}/redlinernotes_www.tar
+    dest=/srv/www/redlinernotes.com copy=no
+    owner={{ default_user }} group=www-data
+    creates=/srv/www/redlinernotes.com/index.html
+
+- name: Delete redlinernotes_www archive
+  file: path={{ default_home }}/redlinernotes_www.tar
+    state=absent
+
+- name: Make redlinernotes log directory
+  file: path=/var/log/nginx/redlinernotes.com mode=755 state=directory
+
+- name: Add nginx configuration for redlinernotes
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/redlinernotes.com.conf
+  notify: restart nginx

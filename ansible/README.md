@@ -27,6 +27,7 @@ Toplevel tags are roles while nested tags are includes.
   * mediagoblin
   * media_db
   * media_config
+* redlinernotes
 
 ## metaobject
 
