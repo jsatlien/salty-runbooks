@@ -1,10 +1,15 @@
 ---
 
-- include: emacs.yml tags=emacs
-- include: ruby.yml tags=ruby
-- include: lisp.yml tags=lisp
-- include: ocaml.yml tags=ocaml
-- include: latex.yml tags=latex
+- include: emacs.yml
+  tags: emacs
+- include: ruby.yml
+  tags: ruby
+- include: lisp.yml
+  tags: lisp
+- include: ocaml.yml
+  tags: ocaml
+- include: latex.yml
+  tags: latex
 
 # TODO: Add VM images for Genera or Mezzano or weird Plan9 things?
 # TODO: Add repos I work on or interesting projects to read?

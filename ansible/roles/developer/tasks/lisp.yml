@@ -11,6 +11,8 @@
     - guile-2.0-doc
     - guile-2.0-dev
 
-- include: lisp/clozure.yml tags=clozure
-- include: lisp/quicklisp.yml tags=quicklisp
+- include: lisp/clozure.yml
+  tags: clozure
+- include: lisp/quicklisp.yml
+  tags: quicklisp
   become_user: "{{ default_user }}"

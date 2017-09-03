@@ -1,6 +1,10 @@
 ---
 
-- include: git.yml tags=git
-- include: lisp.yml tags=lisp
-- include: quicklisp.yml tags=quicklisp
-- include: coleslaw.yml tags=coleslaw
+- include: git.yml 
+  tags: git
+- include: lisp.yml
+  tags: lisp
+- include: quicklisp.yml
+  tags: quicklisp
+- include: coleslaw.yml
+  tags: coleslaw

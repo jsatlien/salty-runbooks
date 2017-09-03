@@ -7,10 +7,12 @@
     - libreadline-dev
     - zlib1g-dev
 
-- include: ruby/rbenv.yml tags=rbenv
+- include: ruby/rbenv.yml
+  tags: rbenv
   become_user: "{{ default_user }}"
 
-- include: ruby/mri.yml tags=mri
+- include: ruby/mri.yml
+  tags: mri
   become_user: "{{ default_user }}"
 
 # TODO: Also install Rubinius or JRuby?
