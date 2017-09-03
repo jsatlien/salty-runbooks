@@ -2,7 +2,7 @@
 
 - hosts: cons
   user: deploy
-  sudo: yes
+  become: yes
   vars_files:
     - vars/cons.yml
     - vars/private.yml
@@ -15,4 +15,5 @@
     - { role: bouncer, tags: ['irc'] }
     - { role: radio, tags: ['radio'] }
     - { role: mediaserver, tags: ['media'] }
+    - { role: redlinernotes, tags: ['redlinernotes'] }
     #- { role: webmail, tags: ['webmail'] }
