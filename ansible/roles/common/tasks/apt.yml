@@ -1,0 +1,11 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install aptitude
+  apt: pkg=aptitude state=present
+
+- name: Upgrade safely
+  apt: upgrade=safe
+

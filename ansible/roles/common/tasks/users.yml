@@ -1,0 +1,12 @@
+---
+
+- name: Add default user
+  user: name={{ default_user }}
+    state=present
+    groups=sudo
+    shell={{ default_shell }}
+    password={{ default_pass }}
+
+- name: Add pubkey to default user authorized_keys
+  authorized_key: user={{ default_user }}
+    key="{{ lookup('file', ssh_local_pubkey_path) }}"

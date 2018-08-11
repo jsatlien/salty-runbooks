@@ -1,0 +1,6 @@
+---
+
+# for users
+default_user: cons
+default_shell: /bin/zsh
+ssh_local_pubkey_path: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"

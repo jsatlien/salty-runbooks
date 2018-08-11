@@ -1,10 +1,11 @@
 ---
 
-- name: Get latest package data
-  apt: update_cache=yes
-
-- name: Run any safe upgrades
-  apt: upgrade=safe
+- include: apt.yml
+  tags: updates
+- include: users.yml
+  tags: users
+- include: security.yml
+  tags: security
 
 - name: Install the basics
   apt: pkg={{ item }} state=present
@@ -12,39 +13,22 @@
     - apt-file
     - apt-transport-https
     - build-essential
-    - dstat
+    - debian-goodies
     - htop
     - iftop
     - iotop
-    - libc6-dbg
-    - linux-tools
     - lsof
-    - mosh
     - ntp
     - rsync
     - screen
     - strace
     - slurm
-    - sudo
     - unattended-upgrades
     - vim
     - wamerican
+    - zsh
   notify: remove unnecessary packages
-
-- name: Add default user
-  user: name={{ default_user }}
-    state=present
-    groups=sudo
-    shell={{ default_shell }}
-    password={{ default_pass }}
-
-- name: Add pubkey to default user authorized_keys
-  authorized_key: user={{ default_user }}
-    key="{{ lookup('file', ssh_local_pubkey_path) }}"
 
 - name: Add the ntp config
   copy: src=ntp.conf dest=/etc/ntp.conf
   notify: restart clock
-
-- include: security.yml
-  tags: security
