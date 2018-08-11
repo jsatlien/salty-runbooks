@@ -4,3 +4,9 @@
 default_user: cons
 default_shell: /bin/zsh
 ssh_local_pubkey_path: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
+
+# for security
+ssh_allowed_users:
+  - "{{ default_user }}"
+  - deploy
+  - git

@@ -4,41 +4,35 @@
   template: src=sshd.j2 dest=/etc/ssh/sshd_config
   notify: restart ssh
 
-- name: Generate self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj
-    "/C=US/ST=Georgia/L=Atlanta/O=KingCons LLC/CN=*.{{ domain }}"
-    -days 3650 -keyout "{{ ssl_key_path }}" -out "{{ ssl_cert_path }}"
-    -extensions v3_ca creates="{{ ssl_cert_path }}"
-
 - name: Install security-related packages
   apt: pkg={{ item }} state=present
   with_items:
     - fail2ban
+    - lynis
+    - rkhunter
     - ufw
+    - whois
 
-- name: Check for fail2ban config
-  stat: path=/etc/fail2ban/jail.local
-  register: f2b_conf
-
-- name: Add basic fail2ban configuration
+- name: Add fail2ban configuration
   template: src=fail2ban.j2 dest=/etc/fail2ban/jail.local
-  when: not f2b_conf.stat.exists
   notify: restart fail2ban
 
-- name: Deny everything and enable UFW
-  ufw: state=enabled policy=deny
+- name: Ensure fail2ban is running
+  service: name=fail2ban state=started
 
-- name: Set firewall rule for mosh
-  ufw: rule=allow port=60000:61000 proto=udp
+- name: Deny everything
+  ufw: policy=deny
+
+- name: Set firewall rule for DNS
+  ufw: rule=allow port=domain
 
 - name: Set firewall rules for SSH
   ufw: rule=allow port=ssh proto=tcp
+
+- name: Enable UFW
+  ufw: state=enabled
 
 - name: Check config of ufw
   command: cat /etc/ufw/ufw.conf
   register: ufw_config
   changed_when: False # never report as "changed"
-
-- name: Disable logging (workaround for known bug in Debian 7)
-  ufw: logging=off
-  when: "ansible_lsb['codename'] == 'wheezy' and 'LOGLEVEL=off' not in ufw_config.stdout"
