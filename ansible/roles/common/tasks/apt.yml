@@ -11,3 +11,8 @@
 
 - name: Remove unneeded packages
   apt: autoremove=yes
+
+- name: Enable backports
+  apt_repository:
+    repo: deb http://mirrors.linode.com/debian stretch-backports main
+    state: present

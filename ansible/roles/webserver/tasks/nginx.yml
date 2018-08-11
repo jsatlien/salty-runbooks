@@ -1,0 +1,27 @@
+---
+
+- name: Install nginx
+  apt: pkg={{ item }} state=present default_release=stretch-backports
+  with_items:
+    - nginx
+    - apache2-utils
+    - python-passlib
+
+- name: Add firewall rules for web traffic
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - http
+    - https
+
+- name: Create www-data dirs for domains
+  file: path=/srv/www/{{ item }} state=directory owner={{ default_user }} group=www-data
+  with_items: "{{ domains }}"
+
+- name: Create log dirs for domains
+  file: path=/var/log/nginx/{{ item }} state=directory owner={{ default_user }} group=www-data
+  with_items: "{{ domains }}"
+
+- name: Add nginx configuration for domains
+  template: src="nginx.j2" dest="/etc/nginx/conf.d/{{ item }}.conf"
+  with_items: "{{ domains }}"
+  notify: restart nginx

@@ -10,3 +10,9 @@ ssh_allowed_users:
   - "{{ default_user }}"
   - deploy
   - git
+admin_email: brit@kingcons.io
+
+# for webserver & letsencrypt
+domains:
+  - kingcons.io
+  - redlinernotes.com

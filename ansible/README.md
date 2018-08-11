@@ -19,8 +19,12 @@ To deploy to a new linode:
 Toplevel tags are roles while nested tags are includes.
 
 * common
+  * updates
+  * users
   * security
 * web
+  * nginx
+  * letsencrypt
 * blog
   * git
   * lisp

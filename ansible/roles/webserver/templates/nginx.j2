@@ -1,18 +1,13 @@
 server {
-  listen 80 default_server;
+  listen 80;
 
-  server_name  {{ domain }};
-  access_log   /var/log/nginx/{{ domain }}/access.log;
-  error_log    /var/log/nginx/{{ domain }}/error.log error;
-  root         /srv/www/{{ domain }};
-  index        index.html;
+  server_name  {{ item }};
+  root         /srv/www/{{ item }};
+  access_log   /var/log/nginx/{{ item }}/access.log;
+  error_log    /var/log/nginx/{{ item }}/error.log error;
 
    location / {
     autoindex on;
   }
-}
 
-server {
-  server_name www.{{ domain }};
-  return 301 http://{{ domain }}$request_uri;
 }
