@@ -2,12 +2,11 @@
 
 # We can't use (ql:add-to-init-file) here due to a confirmation prompt.
 - name: Install quicklisp for git user
-  command: ccl -l /usr/share/cl-quicklisp/quicklisp.lisp
-    --eval "(quicklisp-quickstart:install)"
+  command: sbcl --load /usr/share/cl-quicklisp/quicklisp.lisp --eval "(quicklisp-quickstart:install)"
   args:
     chdir: /home/git/
     creates: /home/git/quicklisp
   become_user: git
 
-- name: Copy CCL init file for quicklisp support.
-  copy: src=ccl-init.lisp dest=/home/git/.ccl-init.lisp
+- name: Copy SBCL init file for quicklisp support.
+  copy: src=sbclrc dest=/home/git/.sbclrc

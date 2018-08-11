@@ -1,8 +1,8 @@
 server {
-  server_name  blog.{{ domain }};
-  access_log   /var/log/nginx/blog.{{ domain }}/access.log;
-  error_log    /var/log/nginx/blog.{{ domain }}/error.log error;
-  root         {{ blog_deploy_dir }}/.curr;
+  server_name  {{ blog_domain }};
+  access_log   /var/log/nginx/{{ blog_domain }}/access.log;
+  error_log    /var/log/nginx/{{ blog_domain }}/error.log error;
+  root         /srv/www/{{ blog_domain }}/.curr;
   index        index.html;
 
    location / {
@@ -12,5 +12,5 @@ server {
 
 server {
   server_name blog.redlinernotes.com;
-  return 301  http://blog.{{ domain }}$request_uri;
+  return 301  http://{{ blog_domain }}$request_uri;
 }

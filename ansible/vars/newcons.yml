@@ -16,3 +16,12 @@ admin_email: brit@kingcons.io
 domains:
   - kingcons.io
   - redlinernotes.com
+
+# for blogging with coleslaw
+blog_repo_dir: improvedmeans.git
+blog_domain: blog.kingcons.io
+blog_author: Brit Butler
+blog_disqus_shortname: clockworkwebdevelopment
+blog_analytics_code: UA-37659929-1
+blog_title: Improved Means for Achieving Deteriorated Ends
+

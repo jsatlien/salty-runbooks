@@ -1,6 +1,6 @@
 (:author "{{ blog_author }}"
- :deploy-dir "{{ blog_deploy_dir }}"
- :domain "http://blog.{{ domain }}"
+ :deploy-dir "/srv/www/{{ blog_domain }}"
+ :domain "http://{{ blog_domain }}"
  :feeds ("lisp")
  :plugins ((versioned)
            (mathjax)
