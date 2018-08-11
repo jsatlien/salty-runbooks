@@ -3,6 +3,7 @@
 # for users
 default_user: cons
 default_shell: /bin/zsh
+default_build_dir: /home/{{ default_user }}/bin/builds
 ssh_local_pubkey_path: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
 
 # for security
