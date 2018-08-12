@@ -12,8 +12,6 @@
     - { role: blog, tags: ['blog'] }
     - { role: radio, tags: ['radio'] }
     #- { role: mailserver, tags: ['mail'] }
-    #- { role: bookmarks, tags: ['bookmarks'] }
     #- { role: bouncer, tags: ['irc'] }
-    #- { role: mediaserver, tags: ['media'] }
     #- { role: redlinernotes, tags: ['redlinernotes'] }
     #- { role: webmail, tags: ['webmail'] }
