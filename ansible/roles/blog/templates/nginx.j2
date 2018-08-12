@@ -1,13 +1,42 @@
 server {
+  listen 443 ssl;
+
+  ## SSL is clownshoes awful:
+  ## http://wingolog.org/archives/2014/10/17/ffs-ssl
+  ## https://mozilla.github.io/server-side-tls/ssl-config-generator/
+  ssl_certificate      {{ ssl_certroot }}/fullchain.pem;
+  ssl_certificate_key  {{ ssl_certroot }}/privkey.pem;
+  ssl_dhparam          /etc/nginx/ssl/dhparam.pem;
+  ssl_session_timeout  1d;
+  ssl_session_cache    shared:SSL:50m;
+  ssl_session_tickets  off;
+  ssl_protocols        TLSv1 TLSv1.1 TLSv1.2;
+  add_header           Strict-Transport-Security max-age=15768000;
+
+  server_name  {{ blog_domain }};
+  root         /srv/www/{{ blog_domain }}/.curr;
+  access_log   /var/log/nginx/{{ blog_domain }}/access.log;
+  error_log    /var/log/nginx/{{ blog_domain }}/error.log error;
+
+   location / {
+    autoindex on;
+  }
+
+}
+
+server {
+  listen 80;
+
   server_name  {{ blog_domain }};
   access_log   /var/log/nginx/{{ blog_domain }}/access.log;
   error_log    /var/log/nginx/{{ blog_domain }}/error.log error;
   root         /srv/www/{{ blog_domain }}/.curr;
   index        index.html;
 
-   location / {
+  location / {
     autoindex on;
   }
+
 }
 
 server {
