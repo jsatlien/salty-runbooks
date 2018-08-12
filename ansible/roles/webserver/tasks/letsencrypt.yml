@@ -1,0 +1,36 @@
+---
+
+- name: Add group for managing SSL certs
+  group: name=ssl-cert state=present
+
+- name: Install certbot from stretch-backports
+  apt:
+    name: certbot
+    state: latest
+    default_release: stretch-backports
+    update_cache: yes
+
+- name: Install certbot config
+  template: src=letsencrypt.j2 dest=/etc/letsencrypt/cli.conf owner=root group=root
+
+- name: Make ssl dir
+  file: path=/etc/nginx/ssl mode=755 state=directory
+
+- name: Generate Diffie Helman Param file
+  shell: openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+    creates=/etc/nginx/ssl/dhparam.pem
+
+- name: Stop nginx
+  service: name=nginx state=stopped enabled=yes
+  tags: renew-ssl
+
+- name: Renew certificates
+  command: "certbot certonly -c /etc/letsencrypt/cli.conf --domains {{ ','.join(ssl_domains) }}"
+  become: true
+  notify: restart nginx
+  tags: renew-ssl
+
+- name: Update nginx configs
+  template: src=nginx-ssl.j2 dest=/etc/nginx/conf.d/{{ item }}.conf
+  with_items: kingcons.io
+  notify: restart nginx

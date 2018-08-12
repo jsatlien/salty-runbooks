@@ -14,6 +14,12 @@ ssh_allowed_users:
 admin_email: brit@kingcons.io
 
 # for webserver & letsencrypt
+letsencrypt_server: https://acme-v01.api.letsencrypt.org/directory
+ssl_certroot: /etc/letsencrypt/live/kingcons.io/
+ssl_domains:
+  - kingcons.io
+  - blog.kingcons.io
+  - dj.kingcons.io
 domains:
   - kingcons.io
   - redlinernotes.com
