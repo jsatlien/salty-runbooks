@@ -8,9 +8,7 @@
 
 - name: Upgrade safely
   apt: upgrade=safe
-
-- name: Remove unneeded packages
-  apt: autoremove=yes
+  notify: remove unneeded packages
 
 - name: Enable backports
   apt_repository:

@@ -27,7 +27,7 @@
     - vim
     - wamerican
     - zsh
-  notify: remove unnecessary packages
+  notify: remove unneeded packages
 
 - name: Add the ntp config
   copy: src=ntp.conf dest=/etc/ntp.conf
