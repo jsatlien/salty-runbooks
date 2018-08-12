@@ -32,3 +32,8 @@ blog_disqus_shortname: clockworkwebdevelopment
 blog_analytics_code: UA-37659929-1
 blog_title: Improved Means for Achieving Deteriorated Ends
 
+# for radio via groovebasin
+groovebasin_user: radio
+groovebasin_domain: dj.kingcons.io
+s3_mountpoints:
+  - { path: /mnt/music, bucket: music.kingcons.io, cache: /home/radio/music_cache }

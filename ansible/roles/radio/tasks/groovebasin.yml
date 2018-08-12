@@ -1,6 +1,21 @@
 ---
 
-- name: Install libgroove debian packages. Hooray!
+# Because there is no debian npm package. wtf. T_T
+- name: Install nodesource signing key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
+# groovebasin will run on node 8 but not node 10
+- name: Install nodesource repo
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_8.x stretch main
+    state: present
+
+- name: Install node and npm
+  apt: pkg=nodejs state=latest update_cache=yes
+
+- name: Install groovebasin deps
   apt: pkg={{ item }} state=present
   with_items:
     - libgroove-dev
@@ -8,44 +23,21 @@
     - libgrooveloudness-dev
     - libgroovefingerprinter-dev
 
-- name: Create Groovebasin user
-  user: name=radio state=present groups=ssl-cert
-
-- name: Create groovebasin working directory
-  file: path=/srv/www/dj.{{ domain }} owner=radio group=www-data
-    state=directory
+- name: Make groovebasin dir
+  file: path=/srv/www/{{ groovebasin_domain }} state=directory
+    owner={{ groovebasin_user }} group=www-data
 
 - name: Checkout groovebasin
   git: repo=git://github.com/andrewrk/groovebasin.git
-    dest=/srv/www/dj.{{ domain }}/groovebasin accept_hostkey=yes
-  become_user: radio
+    dest=/srv/www/{{ groovebasin_domain }} accept_hostkey=yes
+  become_user: "{{ groovebasin_user }}"
 
 - name: Fetch dependencies
   shell: npm run build
   args:
-    chdir: /srv/www/dj.{{ domain }}/groovebasin
-  become_user: radio
+    chdir: /srv/www/{{ groovebasin_domain }}
+  become_user: "{{ groovebasin_user }}"
 
-- name: Add groovebasin config
-  template: src=groovebasin.j2 dest=/srv/www/dj.{{ domain }}/groovebasin/config.json
-    owner=radio group=radio
-
-- name: Make groovebasin log dir
-  file: path=/var/log/nginx/dj.{{ domain }} mode=755 state=directory
-
-- name: Create htpasswd file for any needed users
-  htpasswd: name={{ item.user }} password={{ item.pass }}
-    path=/etc/nginx/htpasswd state=present
-  with_items: radio_users
-
-- name: Add nginx config for dj.kingcons.io
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/dj.{{ domain }}.conf
-  notify: restart nginx
-
-- name: Add groovebasin service to init.d
-  template: src=service.j2 dest=/etc/init.d/groovebasin mode=755
-
-# Still need to figure out why i'm running this in a screen session. *sigh*
-- name: Set defaults for groovebasin service and start it
-  shell: update-rc.d groovebasin defaults
-#  notify: restart groovebasin
+- name: Configure Groovebasin
+  template: src=groovebasin.j2 dest=/srv/www/{{ groovebasin_domain }}/config.json
+    owner={{ groovebasin_user}} group={{ groovebasin_user }}

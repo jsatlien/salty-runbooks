@@ -1,0 +1,19 @@
+---
+
+- name: Create Groovebasin user
+  user: name={{ groovebasin_user }} groups=www-data state=present
+
+- name: Add bin directory for radio user
+  file: path=/home/{{ groovebasin_user }}/bin state=directory
+
+- name: Add python script for deleting old cache entries
+  copy:
+    src: dir_quota.py
+    dest: /home/{{ groovebasin_user }}/bin/dir_quota.py
+    owner: "{{ groovebasin_user }}"
+    group: "{{ groovebasin_user }}"
+
+- name: Add cronjob to run python script
+  cron: name="s3fs_quota {{ item.cache }}" special_time=daily state=present
+    job="/home/radio/bin/dir_quota.py {{ item.cache }}" user="{{ groovebasin_user }}"
+  with_items: "{{ s3_mountpoints }}"

@@ -1,8 +1,8 @@
 ---
 
-- include: nodejs.yml
-  tags: nodejs
+- include: user.yml
 - include: s3fuse.yml
   tags: s3fs
 - include: groovebasin.yml
   tags: groovebasin
+- include: nginx.yml

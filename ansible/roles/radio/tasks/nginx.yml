@@ -1,0 +1,13 @@
+---
+
+- name: Make groovebasin log dir
+  file: path=/var/log/nginx/{{ groovebasin_domain }} state=directory
+    owner={{ default_user }} group=www-data
+
+- name: Create htpasswd file for all users
+  htpasswd: name={{ item.user }} password={{ item.pass }} path=/etc/nginx/htpasswd state=present
+  with_items: "{{ radio_users }}"
+
+- name: Add nginx config
+  template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ groovebasin_domain }}.conf
+  notify: restart nginx

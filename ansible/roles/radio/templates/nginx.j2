@@ -1,16 +1,18 @@
 server {
   listen 443 ssl;
 
-  ssl_certificate      {{ ssl_cert_path }};
-  ssl_certificate_key  {{ ssl_key_path }};
-  ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-  ssl_session_timeout 5m;
-  ssl_session_cache shared:SSL:50m;
-  ssl_protocols TLSv1.1 TLSv1.2;
+  ssl_certificate      {{ ssl_certroot }}/fullchain.pem;
+  ssl_certificate_key  {{ ssl_certroot }}/privkey.pem;
+  ssl_dhparam          /etc/nginx/ssl/dhparam.pem;
+  ssl_session_timeout  1d;
+  ssl_session_cache    shared:SSL:50m;
+  ssl_session_tickets  off;
+  ssl_protocols        TLSv1 TLSv1.1 TLSv1.2;
+  add_header           Strict-Transport-Security max-age=15768000;
 
-  server_name   dj.{{ domain }};
-  access_log    /var/log/nginx/dj.{{ domain }}/access.log;
-  error_log     /var/log/nginx/dj.{{ domain }}/error.log error;
+  server_name   {{ groovebasin_domain }};
+  access_log    /var/log/nginx/{{ groovebasin_domain }}/access.log;
+  error_log     /var/log/nginx/{{ groovebasin_domain }}/error.log error;
 
   location / {
     auth_basic "Restricted Access";
@@ -30,6 +32,6 @@ server {
 
 server {
   listen 80;
-  server_name   dj.{{ domain }};
+  server_name   {{ groovebasin_domain }};
   return 301    https://$server_name$request_uri;
 }
