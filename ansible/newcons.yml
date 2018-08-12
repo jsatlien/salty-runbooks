@@ -11,7 +11,7 @@
     - { role: webserver, tags: ['web'] }
     - { role: blog, tags: ['blog'] }
     - { role: radio, tags: ['radio'] }
+    - { role: bouncer, tags: ['irc'] }
     #- { role: mailserver, tags: ['mail'] }
-    #- { role: bouncer, tags: ['irc'] }
-    #- { role: redlinernotes, tags: ['redlinernotes'] }
     #- { role: webmail, tags: ['webmail'] }
+    #- { role: redlinernotes, tags: ['redlinernotes'] }

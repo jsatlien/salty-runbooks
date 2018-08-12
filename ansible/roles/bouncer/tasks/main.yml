@@ -9,33 +9,48 @@
   group: name=znc state=present
 
 - name: Create znc user
-  user: name=znc group=znc state=present home=/var/lib/znc
+  user: name=znc group=znc state=present home=/usr/lib/znc
     system=yes shell=/usr/sbin/nologin
 
-- name: Add ZNC systemd service
-  copy: src=znc.service dest=/etc/systemd/system/znc.service
+- name: Ensure pid dir exists
+  file: state=directory path=/var/run/znc group=znc owner=znc
 
-- name: Create a combined version of the private key with public cert and intermediate + root CAs
-  shell: cat {{ ssl_key_path }} {{ ssl_cert_path }} > /var/lib/znc/znc.pem
-    creates=/var/lib/znc/znc.pem
+- name: Ensure data folders exist
+  file: state=directory path=/usr/lib/znc/{{ item }} group=znc owner=znc
+  with_items:
+    - moddata
+    - modules
+    - users
+
+- name: Add ZNC systemd service
+  copy: src=znc.service dest=/etc/systemd/system/znc.service mode=0644
+
+- name: Create a combined version of the SSL private key and full certificate chain
+  shell: cat {{ ssl_certroot }}/privkey.pem {{ ssl_certroot }}/fullchain.pem > /usr/lib/znc/znc.pem creates=/usr/lib/znc/znc.pem
+  tags: renew-ssl
 
 - name: Ensure znc user and group can read cert
-  file: path=/var/lib/znc/znc.pem group=znc owner=znc mode=640
-
-- name: Create znc config directory
-  file: path=/var/lib/znc/configs state=directory group=znc owner=znc
+  file: path=/usr/lib/znc/znc.pem group=znc owner=znc mode=0640
+  tags: renew-ssl
+  notify: restart znc
 
 - name: Check for existing config file
-  command: cat /var/lib/znc/configs/znc.conf
+  command: cat /usr/lib/znc/configs/znc.conf
   register: znc_config
   ignore_errors: True
   changed_when: False  # never report as "changed"
 
+- name: Create znc config directory
+  file: state=directory path=/usr/lib/znc/configs group=znc owner=znc
+
 - name: Copy znc configuration file into place
-  template: src=znc.conf.j2 dest=/var/lib/znc/configs/znc.conf
+  template: src=znc.conf.j2 dest=/usr/lib/znc/configs/znc.conf
    owner=znc group=znc
   when: znc_config.rc != 0
   notify: restart znc
 
 - name: Set firewall rule for znc
   ufw: rule=allow port=6697 proto=tcp
+
+- name: Ensure znc service is running
+  service: name=znc state=restarted enabled=true

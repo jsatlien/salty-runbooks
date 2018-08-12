@@ -37,3 +37,8 @@ groovebasin_user: radio
 groovebasin_domain: dj.kingcons.io
 s3_mountpoints:
   - { path: /mnt/music, bucket: music.kingcons.io, cache: /home/radio/music_cache }
+
+# for irc via znc
+znc_user: kingcons
+irc_nick: kingcons
+irc_real_name: Brit Butler
