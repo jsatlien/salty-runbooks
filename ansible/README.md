@@ -39,33 +39,8 @@ Toplevel tags are roles while nested tags are includes.
   * dovecot
   * opendkim
   * dspam
-* bookmarks
 * irc
 * radio
-  * nodejs
+  * user
   * s3fs
   * groovebasin
-* media
-  * media_basics
-  * mediagoblin
-  * media_db
-  * media_config
-* redlinernotes
-
-## metaobject
-
-* thinkpad
-  * ssh_keys
-  * basics
-  * shell
-  * apps
-* developer
-  * emacs
-  * ruby
-    * rbenv
-    * mri
-  * lisp
-    * clozure
-    * quicklisp
-  * ocaml
-  * latex
