@@ -8,6 +8,7 @@
   htpasswd: name={{ item.user }} password={{ item.pass }} path=/etc/nginx/htpasswd state=present
   with_items: "{{ radio_users }}"
 
-- name: Add nginx config
-  template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ groovebasin_domain }}.conf
-  notify: restart nginx
+# TODO: For now use SSH - https://github.com/andrewrk/groovebasin/wiki/Using-Groove-Basin-over-SSH
+# - name: Add nginx config
+#   template: src=nginx.j2 dest=/etc/nginx/conf.d/{{ groovebasin_domain }}.conf
+#   notify: restart nginx
