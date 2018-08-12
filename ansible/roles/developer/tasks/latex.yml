@@ -1,6 +1,0 @@
----
-
-- name: Add LaTeX packages
-  apt: pkg={{ item }} state=present
-  with_items:
-    - texlive

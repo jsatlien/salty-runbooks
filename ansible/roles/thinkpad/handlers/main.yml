@@ -1,7 +1,0 @@
----
-
-- name: Fortunify lambda
-  shell: strfile lambda && mv lambda* /usr/share/games/fortunes/
-  args:
-    chdir: /home/{{ default_user }}/bin/builds
-    creates: /usr/share/games/fortunes/lambda.dat
