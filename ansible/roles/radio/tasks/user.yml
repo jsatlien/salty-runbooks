@@ -1,7 +1,7 @@
 ---
 
 - name: Create Groovebasin user
-  user: name={{ groovebasin_user }} groups=www-data state=present
+  user: name={{ groovebasin_user }} groups=www-data,ssl-cert state=present
 
 - name: Add bin directory for radio user
   file: path=/home/{{ groovebasin_user }}/bin state=directory
