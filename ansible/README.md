@@ -13,6 +13,9 @@ To deploy to a new linode:
 5. Run the playbook: `ansible-playbook -i ./hosts cons.yml`
   * Or just run a subsection: `ansible-playbook -i ./hosts --tags=foo cons.yml`
   * Or just run updates: `ansible-playbook -i ./hosts --tags=updates cons.yml`
+  * Or just renew the SSL certs: `ansible-playbook -i ./hosts --tags=renew-ssl cons.yml`
+
+Note that some additional steps may be needed for ZNC and Groovebasin, see the role READMEs.
 
 ## cons
 
