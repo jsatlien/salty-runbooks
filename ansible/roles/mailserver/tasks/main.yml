@@ -17,3 +17,9 @@
   command: postmap /etc/postfix/virtual
   when: alias_map.changed
   notify: restart postfix
+
+- name: Set firewall rules for postfix
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - smtp
+    - ssmtp
