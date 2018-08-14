@@ -21,6 +21,26 @@ readme_directory = no
 # fresh installs.
 compatibility_level = 2
 
+# antispam
+smtpd_helo_required = yes
+smtpd_helo_restrictions = permit_mynetworks, reject_invalid_hostname
+smtpd_sender_restrictions = reject_unknown_address
+disable_vrfy_command = yes
+strict_rfc821_envelopes = yes
+invalid_hostname_reject_code = 554
+multi_recipient_bounce_reject_code = 554
+non_fqdn_reject_code = 554
+relay_domains_reject_code = 554
+unknown_address_reject_code = 554
+unknown_client_reject_code = 554
+unknown_hostname_reject_code = 554
+unknown_local_recipient_reject_code = 554
+unknown_relay_recipient_reject_code = 554
+unknown_virtual_alias_reject_code = 554
+unknown_virtual_mailbox_reject_code = 554
+unverified_recipient_reject_code = 554
+unverified_sender_reject_code = 554
+
 # TLS parameters
 smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
@@ -39,7 +59,20 @@ smtp_sasl_security_options = noanonymous
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+# set to empty value for backwards compatibility
+# as per http://www.postfix.org/postconf.5.html#smtpd_relay_restrictions
+smtpd_relay_restrictions =
+
+smtpd_recipient_restrictions =
+  permit_mynetworks,
+  permit_sasl_authenticated,
+  reject_unauth_pipelining,
+  reject_unauth_destination,
+  reject_invalid_hostname,
+  reject_non_fqdn_hostname,
+  reject_non_fqdn_recipient,
+  reject_unknown_recipient_domain,
+  permit
 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
