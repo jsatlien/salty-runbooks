@@ -7,11 +7,12 @@
     - vars/newcons.yml
     - vars/private.yml
   roles:
-    - { role: common, tags: ['common'] }
-    - { role: webserver, tags: ['web'] }
-    - { role: blog, tags: ['blog'] }
-    - { role: radio, tags: ['radio'] }
-    - { role: bouncer, tags: ['irc'] }
-    #- { role: mailserver, tags: ['mail'] }
+    - { role: common,     tags: ['common'] }
+    - { role: webserver,  tags: ['web']    }
+    - { role: blog,       tags: ['blog']   }
+    - { role: radio,      tags: ['radio']  }
+    - { role: bouncer,    tags: ['irc']    }
+    - { role: mailserver, tags: ['mail']   }
+    #- { role: code,      tags: ['code']   }
     #- { role: webmail, tags: ['webmail'] }
     #- { role: redlinernotes, tags: ['redlinernotes'] }

@@ -42,3 +42,7 @@ s3_mountpoints:
 znc_user: kingcons
 irc_nick: kingcons
 irc_real_name: Brit Butler
+
+# for my vain email
+email_domain: kingcons.io
+vanity_email: brit

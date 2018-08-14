@@ -1,12 +1,19 @@
 ---
 
-- include: postgres.yml
-  tags: postgres
-- include: postfix.yml
-  tags: postfix
-- include: dovecot.yml
-  tags: dovecot
-- include: opendkim.yml
-  tags: opendkim
-#- include: spam.yml
-#  tags: spam
+- name: Install postfix
+  apt: pkg={{ item }} state=present
+  with_items:
+    - postfix
+    - dnsutils
+
+- name: Tweak configuration settings
+  template: src=main.j2 dest=/etc/postfix/main.cf owner=root group=root
+
+- name: Add virtual alias map
+  template: src=virtual.j2 dest=/etc/postfix/virtual owner=root group=root
+  register: alias_map
+
+- name: Update postfix lookup table
+  command: postmap /etc/postfix/virtual
+  when: alias_map.changed
+  notify: restart postfix
