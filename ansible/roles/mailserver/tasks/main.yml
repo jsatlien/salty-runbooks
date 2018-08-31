@@ -5,6 +5,8 @@
   with_items:
     - postfix
     - dnsutils
+    - sasl2-bin
+    - libsasl2-modules
 
 - name: Tweak configuration settings
   template: src=main.j2 dest=/etc/postfix/main.cf owner=root group=root
@@ -23,3 +25,21 @@
   with_items:
     - smtp
     - ssmtp
+    - submission
+
+- name: Add hostname entry for saslauth
+  hostname: name={{ email_domain }}
+
+- name: Create SASL users
+  shell: "echo -n {{ item.pass }} | sudo saslpasswd2 -c -u {{ email_domain }} {{ item.user }} -p"
+  with_items: "{{ sasl_users }}"
+
+- name: Link the sasldb2 file to the Postfix chroot
+  file: src=/etc/sasldb2 dest=/var/spool/postfix/etc/sasldb2 state=hard owner=postfix group=postfix
+
+- name: Set up smtpd to use SASL
+  template: src=smtpd.j2 dest=/etc/postfix/sasl/smtpd.conf owner=postfix group=postfix
+
+- name: Enable smtpd
+  template: src=master.j2 dest=/etc/postfix/master.cf owner=postfix group=postfix
+  notify: restart postfix
