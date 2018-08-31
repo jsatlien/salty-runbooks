@@ -12,6 +12,7 @@
     dest: /home/{{ groovebasin_user }}/bin/dir_quota.py
     owner: "{{ groovebasin_user }}"
     group: "{{ groovebasin_user }}"
+    mode: 755
 
 - name: Add cronjob to run python script
   cron: name="s3fs_quota {{ item.cache }}" special_time=daily state=present
