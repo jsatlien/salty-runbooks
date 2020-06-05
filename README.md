@@ -1,6 +1,8 @@
 salty-runbooks
 ==============
 
+I STOLE THIS REPO!!! MWUAHAHAHA
+
 Ansible Playbooks and Salt States
 
 So named for the Melee/FGC concept of a salty runback where after
